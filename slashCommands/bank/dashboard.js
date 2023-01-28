@@ -29,6 +29,7 @@ module.exports = {
                         { name: "Balance", value: `$${balance}`, inline: true },
                         { name: "Loans", value: "blah", inline: true },
                     )
+                    .setThumbnail("https://raw.githubusercontent.com/Reynard-G/Discover-Banking-Bot/master/assets/dashboardThumbnail.gif")
                     .setColor("#2F3136")
                     .setTimestamp()
                     .setFooter({ text: "Discover Bank", iconURL: interaction.guild.iconURL() })
