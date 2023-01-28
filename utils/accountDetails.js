@@ -1,5 +1,5 @@
 exports.getBalance = async function (client, discordUserID) {
-    const balance = (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${discordUserID}" AND cr_dr = "cr"`))[0]["SUM(amount)"] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${discordUserID}" AND cr_dr = "dr"`))[0]["SUM(amount)"];
+    const balance = (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${discordUserID}" AND cr_dr = "CR" AND status = 1`))[0]["SUM(amount)"] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${discordUserID}" AND cr_dr = "DR" AND status = 1`))[0]["SUM(amount)"];
     return balance;
 }
 

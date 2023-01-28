@@ -21,15 +21,14 @@ module.exports = {
         await interaction.editReply({
             embeds: [
                 new EmbedBuilder()
-                    .setAuthor({ name: "Discover Banking Dashboard", iconURL: interaction.guild.iconURL() })
+                    .setAuthor({ name: "Discover Banking Dashboard" })
                     .addFields(
-                        { name: "Account Holder", value: username, inline: true },
-                        { name: "Account Number", value: interaction.user.id, inline: true },
-                        { name: "\u200B", value: "\u200B", inline: true },
-                        { name: "Balance", value: `$${balance}`, inline: true },
-                        { name: "Loans", value: "blah", inline: true },
+                        { name: "Account Holder", value: username },
+                        { name: "Account Number", value: interaction.user.id },
+                        { name: "Balance", value: `$${balance}` },
+                        { name: "Loans", value: "blah" },
                     )
-                    .setThumbnail("https://raw.githubusercontent.com/Reynard-G/Discover-Banking-Bot/master/assets/dashboardThumbnail.gif")
+                    .setThumbnail("https://raw.githubusercontent.com/Reynard-G/Discover-Banking-Bot/master/assets/dashboard_Thumbnail.gif")
                     .setColor("#2F3136")
                     .setTimestamp()
                     .setFooter({ text: "Discover Bank", iconURL: interaction.guild.iconURL() })
