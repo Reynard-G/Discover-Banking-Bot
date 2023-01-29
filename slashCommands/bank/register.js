@@ -5,15 +5,16 @@ module.exports = {
     name: "register",
     description: "Register a bank account.",
     type: ApplicationCommandType.ChatInput,
+    cooldown: 3000,
     run: async (client, interaction) => {
         // Defer reply to prevent interaction timeout
         await interaction.deferReply({ ephemeral: true });
 
         // Check if user is already registered
-        if (await userExists(client, interaction, true, true, true)) return;
+        if (await userExists(client, interaction, interaction.user.id, true, true)) return;
 
         // Ask user to agree to TOS
-        await interaction.editReply({
+        return await interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Discover Account Registration")

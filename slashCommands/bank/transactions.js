@@ -7,12 +7,13 @@ module.exports = {
     name: "transactions",
     description: "View your transaction history",
     type: ApplicationCommandType.ChatInput,
+    cooldown: 3000,
     run: async (client, interaction) => {
         // Defer reply to prevent interaction timeout
         await interaction.deferReply({ ephemeral: true });
 
         // Check if user is already registered
-        if (!(await userExists(client, interaction, false, true, false))) return;
+        if (!(await userExists(client, interaction, interaction.user.id, false, true))) return;
 
         const types = {
             "CR": "📈",
@@ -34,7 +35,7 @@ module.exports = {
             .setDescription("For privacy reasons, you can only switch between pages of your transaction history for **5 minutes.**")
             .setColor("#2F3136")
             .setTimestamp()
-            .setFooter({ text: `1 / ${Math.ceil(transactions.length / 5)}` });
+            .setFooter({ text: `Discover Banking • Page 1 of ${Math.ceil(transactions.length / 5)}`, iconURL: interaction.guild.iconURL() });
 
         // Add fields
         let page = 1;
@@ -47,7 +48,7 @@ module.exports = {
                     .setDescription("For privacy reasons, you can only switch between pages of your transaction history for **5 minutes.**")
                     .setColor("#2F3136")
                     .setTimestamp()
-                    .setFooter({ text: `${Math.ceil(i / 5)} / ${Math.ceil(transactions.length / 5)}` });
+                    .setFooter({ text: `Discover Banking • Page ${Math.ceil(i / 5)} of ${Math.ceil(transactions.length / 5)}`, iconURL: interaction.guild.iconURL() });
                 page++;
             }
 
@@ -83,6 +84,6 @@ module.exports = {
             );
 
         // Send embed
-        pageEmbed(interaction, pages, buttonRow);
+        return pageEmbed(interaction, pages, buttonRow);
     }
 };

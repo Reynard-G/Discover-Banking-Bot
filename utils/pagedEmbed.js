@@ -31,12 +31,8 @@ exports.pageEmbed = async (interaction, pages, buttons, timeout = 300000) => {
 
     // Disable buttons after timeout
     collector.on("end", () => {
-        buttons.forEach((row) => {
-            row.components.forEach((button) => {
-                button.setDisabled(true);
-            });
-        });
+        buttons.components.forEach(button => button.setDisabled(true));
 
-        msg.edit({ embeds: [pages[page]], components: [buttons] });
+        interaction.editReply({ embeds: [pages[page]], components: [buttons] });
     });
 };

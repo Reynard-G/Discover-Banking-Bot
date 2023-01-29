@@ -6,19 +6,20 @@ module.exports = {
     name: "dashboard",
     description: "View your bank account dashboard.",
     type: ApplicationCommandType.ChatInput,
+    cooldown: 3000,
     run: async (client, interaction) => {
         // Defer reply to prevent interaction timeout
         await interaction.deferReply({ ephemeral: true });
 
         // Check if user is not registered
-        if (!(await userExists(client, interaction, false, true, false))) return;
+        if (!(await userExists(client, interaction, interaction.user.id, false, true))) return;
 
         // Get user details
         const username = await getAccountUsername(client, interaction.user.id);
         const balance = await getBalance(client, interaction.user.id);
 
         // Create embed
-        await interaction.editReply({
+        return await interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setAuthor({ name: "Discover Banking Dashboard" })

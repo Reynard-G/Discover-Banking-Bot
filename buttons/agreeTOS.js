@@ -5,7 +5,7 @@ module.exports = {
     id: "agreeTOS",
     permissions: [],
     run: async (client, interaction) => {
-        if (await userExists(client, interaction, true, false, true)) return;
+        if (await userExists(client, interaction, interaction.user.id, true, false)) return;
 
         const registerModal = new ModalBuilder()
             .setTitle("Discover Banking Registration")
