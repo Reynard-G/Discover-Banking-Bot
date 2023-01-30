@@ -15,7 +15,7 @@ exports.userExists = async function (client, interaction, userID = interaction.u
                     .setColor("Red");
             } else {
                 embed.setTitle("Registration Failed")
-                    .setDescription("It appears you do not have a bank account with us. Please register with \`/register\` in order to continue.")
+                    .setDescription("It appears you do not have a bank account with us. Please register with `/register` in order to continue.")
                     .setColor("Red");
             }
 

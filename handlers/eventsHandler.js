@@ -1,7 +1,7 @@
 const fs = require("fs");
 const chalk = require("chalk");
-var AsciiTable = require("ascii-table");
-var table = new AsciiTable();
+const AsciiTable = require("ascii-table");
+const table = new AsciiTable();
 table.setHeading("Events", "Stats").setBorder("|", "=", "0", "0");
 
 module.exports = (client) => {

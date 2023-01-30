@@ -4,16 +4,12 @@ const chalk = require("chalk");
 
 client.on("ready", () => {
 	const activities = [
-		{ name: `${client.guilds.cache.size} Servers`, type: ActivityType.Listening },
-		{ name: `${client.channels.cache.size} Channels`, type: ActivityType.Playing },
-		{ name: `${client.users.cache.size} Users`, type: ActivityType.Watching },
-		{ name: `Discord.js v14`, type: ActivityType.Competing }
+		{ name: `to a podcast`, type: ActivityType.Listening },
+		{ name: `Jackbox`, type: ActivityType.Playing },
+		{ name: `a movie`, type: ActivityType.Watching },
+		{ name: `in a tournament`, type: ActivityType.Competing }
 	];
-	const status = [
-		"online",
-		"dnd",
-		"idle"
-	];
+
 	let i = 0;
 	setInterval(() => {
 		if (i >= activities.length) i = 0;
@@ -21,11 +17,7 @@ client.on("ready", () => {
 		i++;
 	}, 5000);
 
-	let s = 0;
-	setInterval(() => {
-		if (s >= activities.length) s = 0;
-		client.user.setStatus(status[s]);
-		s++;
-	}, 30000);
+	client.user.setStatus("dnd");
+
 	console.log(chalk.red(`Logged in as ${client.user.tag}!`));
 });

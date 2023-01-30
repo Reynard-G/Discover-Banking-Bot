@@ -1,5 +1,4 @@
 const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ApplicationCommandType } = require("discord.js");
-const moment = require("moment-timezone");
 const { userExists } = require("../../utils/checkUser.js");
 const { pageEmbed } = require("../../utils/pagedEmbed.js");
 
@@ -27,7 +26,7 @@ module.exports = {
         };
 
         // Get user's transactions
-        const transactions = await client.query(`SELECT id, amount, fee, cr_dr, status, UNIX_TIMESTAMP(created_at), UNIX_TIMESTAMP(updated_at) FROM transactions WHERE user_id = "${interaction.user.id}" ORDER BY id DESC`);
+        const transactions = await client.query(`SELECT id, amount, fee, cr_dr, status, note, UNIX_TIMESTAMP(created_at), UNIX_TIMESTAMP(updated_at) FROM transactions WHERE user_id = "${interaction.user.id}" ORDER BY id DESC`);
 
         // Create embed
         let embed = new EmbedBuilder()
@@ -38,7 +37,6 @@ module.exports = {
             .setFooter({ text: `Discover Banking • Page 1 of ${Math.ceil(transactions.length / 5)}`, iconURL: interaction.guild.iconURL() });
 
         // Add fields
-        let page = 1;
         let pages = [];
         for (let i = 0; i < transactions.length; i++) {
             if (i % 5 === 0 && i !== 0) {
@@ -49,7 +47,6 @@ module.exports = {
                     .setColor("#2F3136")
                     .setTimestamp()
                     .setFooter({ text: `Discover Banking • Page ${Math.ceil(i / 5)} of ${Math.ceil(transactions.length / 5)}`, iconURL: interaction.guild.iconURL() });
-                page++;
             }
 
             if (transactions[i]) {
@@ -58,6 +55,7 @@ module.exports = {
                     value: `${types[transactions[i]["cr_dr"]]} Type: ${transactions[i]["cr_dr"]}` +
                         `\nAmount: ${transactions[i]["amount"]}` +
                         `\nFee: ${transactions[i]["fee"]}` +
+                        `\nNote: ${transactions[i]["note"] ?? "N/A"}` +
                         `\nStatus: ${statuses[transactions[i]["status"]]}` +
                         `\nCreated At: <t:${transactions[i]["UNIX_TIMESTAMP(created_at)"]}:F>` +
                         `\nUpdated At: <t:${transactions[i]["UNIX_TIMESTAMP(updated_at)"]}:F>`
