@@ -1,4 +1,4 @@
-const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ApplicationCommandType } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandType } = require("discord.js");
 const { userExists } = require("../../utils/checkUser.js");
 const { getBalance, getAccountUsername } = require("../../utils/accountDetails.js");
 

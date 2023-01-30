@@ -52,7 +52,7 @@ module.exports = {
                 embeds: [
                     new EmbedBuilder()
                         .setTitle("Transfer Failed")
-                        .setDescription("This user is not registered with us. Please ask them to register with \`/register\` in order to continue.")
+                        .setDescription("This user is not registered with us. Please ask them to register with `/register` in order to continue.")
                         .setColor("Red")
                         .setTimestamp()
                         .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() })
@@ -67,7 +67,7 @@ module.exports = {
                 embeds: [
                     new EmbedBuilder()
                         .setTitle("Transfer Failed")
-                        .setDescription("You don't have enough money to send. You can check your balance with \`/dashboard\`.")
+                        .setDescription("You don't have enough money to send. You can check your balance with `/dashboard`.")
                         .setColor("Red")
                         .setTimestamp()
                         .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() })
