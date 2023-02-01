@@ -1,11 +1,11 @@
 const { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require("discord.js");
-const { userExists } = require("../utils/checkUser");
+const checkUser = require("../utils/checkUser");
 
 module.exports = {
     id: "agreeTOS",
     permissions: [],
     run: async (client, interaction) => {
-        if (await userExists(client, interaction, interaction.user.id, true, false)) return;
+        if (await checkUser.exists(client, interaction, interaction.user.id, true, false)) return;
 
         const registerModal = new ModalBuilder()
             .setTitle("Discover Banking Registration")

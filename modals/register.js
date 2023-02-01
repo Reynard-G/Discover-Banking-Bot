@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
-const { userExists } = require("../utils/checkUser");
+const checkUser = require("../utils/checkUser.js");
+const errorMessages = require("../utils/errorMessages.js");
 
 module.exports = {
     id: "agreeTOS_modal",
@@ -9,26 +10,19 @@ module.exports = {
         await interaction.deferReply({ ephemeral: true });
 
         // Check if user already has an account
-        if (await userExists(client, interaction, interaction.user.id, true, true)) return;
+        if (await checkUser.exists(client, interaction, interaction.user.id, true, true)) return;
 
         const username = interaction.fields.getTextInputValue("ignInput");
 
         // Check if username complies with minecraft username rules
         if (!/^[a-zA-Z0-9_]{3,16}$/.test(username)) {
             return await interaction.editReply({
-                embeds: [
-                    new EmbedBuilder()
-                        .setTitle("Invalid Username")
-                        .setDescription("Your username must be between 3 and 16 characters long and can only contain letters, numbers and underscores.")
-                        .setColor("Red")
-                        .setTimestamp()
-                        .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() })
-                ]
+                embeds: [await errorMessages.invalidUsername(interaction)]
             });
         }
 
         // Create user
-        await client.query("INSERT INTO accounts (id, username) VALUES (?, ?)", [interaction.user.id, username]);
+        await client.query("INSERT INTO accounts (user_id, username) VALUES (?, ?)", [interaction.user.id, username]);
 
         // Send success message
         await interaction.editReply({

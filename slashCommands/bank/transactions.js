@@ -1,18 +1,19 @@
 const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ApplicationCommandType } = require("discord.js");
-const { userExists } = require("../../utils/checkUser.js");
-const { pageEmbed } = require("../../utils/pagedEmbed.js");
+const checkUser = require("../../utils/checkUser.js");
+const pagedEmbed = require("../../utils/pagedEmbed.js");
 
 module.exports = {
     name: "transactions",
     description: "View your transaction history",
     type: ApplicationCommandType.ChatInput,
+    dm_permission: false,
     cooldown: 3000,
     run: async (client, interaction) => {
         // Defer reply to prevent interaction timeout
         await interaction.deferReply({ ephemeral: true });
 
         // Check if user is already registered
-        if (!(await userExists(client, interaction, interaction.user.id, false, true))) return;
+        if (!(await checkUser.exists(client, interaction, interaction.user.id, false, true))) return;
 
         const types = {
             "CR": "📈",
@@ -82,6 +83,6 @@ module.exports = {
             );
 
         // Send embed
-        return pageEmbed(interaction, pages, buttonRow);
+        return pagedEmbed.listener(interaction, pages, buttonRow);
     }
 };

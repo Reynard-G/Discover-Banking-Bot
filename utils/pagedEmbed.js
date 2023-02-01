@@ -1,4 +1,4 @@
-exports.pageEmbed = async (interaction, pages, buttons, timeout = 300000) => {
+exports.listener = async (interaction, pages, buttons, timeout = 300000) => {
     if (!interaction || !pages || !buttons || timeout < 0) throw new Error("Invalid arguments provided.");
 
     if (pages.length === 1) {
