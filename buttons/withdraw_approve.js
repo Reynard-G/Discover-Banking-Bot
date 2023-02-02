@@ -1,7 +1,7 @@
 const { ActionRowBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
-    id: "deposit_approve",
+    id: "withdraw_approve",
     permissions: [],
     run: async (client, interaction) => {
         // Get the transaction ID from the footer
@@ -18,8 +18,8 @@ module.exports = {
         await user.send({
             embeds: [
                 new EmbedBuilder()
-                    .setTitle("Deposit Approved")
-                    .setDescription(`Your deposit with transaction ID **#${transactionID}** has been approved.`)
+                    .setTitle("Withdrawal Approved")
+                    .setDescription(`Your withdrawal with transaction ID **#${transactionID}** has been approved.`)
                     .setColor("Green")
                     .setTimestamp()
                     .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() })
@@ -38,6 +38,6 @@ module.exports = {
         embed.setColor("Green");
         embed.setDescription(description.replace("Pending", "Approved"));
 
-        await interaction.update({ embeds: [embed], components: [row], files: [] });
+        await interaction.update({ embeds: [embed], components: [row] });
     }
 };

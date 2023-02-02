@@ -1,14 +1,14 @@
 const { ActionRowBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
-    id: "deposit_approve",
+    id: "withdraw_deny",
     permissions: [],
     run: async (client, interaction) => {
         // Get the transaction ID from the footer
         const transactionID = interaction.message.embeds[0].footer.text.split("#").pop();
 
         // Update the transaction
-        await client.query("UPDATE transactions SET status = '1' WHERE id = ?", [transactionID]);
+        await client.query("UPDATE transactions SET status = '0' WHERE id = ?", [transactionID]);
 
         // Get user's ID from the message
         const userID = interaction.message.embeds[0].description.split("(").pop().split(")")[0];
@@ -18,9 +18,9 @@ module.exports = {
         await user.send({
             embeds: [
                 new EmbedBuilder()
-                    .setTitle("Deposit Approved")
-                    .setDescription(`Your deposit with transaction ID **#${transactionID}** has been approved.`)
-                    .setColor("Green")
+                    .setTitle("Withdrawal Denied")
+                    .setDescription(`Your withdrawal with transaction ID **#${transactionID}** has been denied.`)
+                    .setColor("Red")
                     .setTimestamp()
                     .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() })
             ]
@@ -35,9 +35,9 @@ module.exports = {
         // Update the message by grabbing the embed from the message
         const embed = EmbedBuilder.from(interaction.message.embeds[0]);
         const description = interaction.message.embeds[0].description;
-        embed.setColor("Green");
-        embed.setDescription(description.replace("Pending", "Approved"));
+        embed.setColor("Red");
+        embed.setDescription(description.replace("Pending", "Denied"));
 
-        await interaction.update({ embeds: [embed], components: [row], files: [] });
+        await interaction.update({ embeds: [embed], components: [row] });
     }
 };

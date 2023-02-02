@@ -59,14 +59,14 @@ module.exports = {
         const currentUnixMilliseconds = new Date().getTime();
 
         // Store pending deposit to MySQL database & download attachment
-        const depositID = (await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, attachment, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()`, [interaction.user.id, amountDeposited, feeAmount, "CR", 2, `Deposit of $${amount}`, `screenshot_${currentUnixMilliseconds}.${attachmentFormat}`, interaction.user.id, interaction.user.id]))[1][0]["LAST_INSERT_ID()"];
-        await attachment.download(screenshot.url, `./attachments/screenshot_${currentUnixMilliseconds}.${attachmentFormat}`)
-            .catch(
-                console.error,
-                interaction.editReply({
-                    embeds: [await errorMessages.imageDownloadFailed(interaction)]
-                })
-            ); // Shows first for some reason
+        const depositID = (await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, attachment, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()`, [interaction.user.id, amountDeposited, feeAmount, "CR", 2, `Deposit of $${amount}`, `deposit_${currentUnixMilliseconds}.${attachmentFormat}`, interaction.user.id, interaction.user.id]))[1][0]["LAST_INSERT_ID()"];
+        await attachment.download(screenshot.url, `./attachments/deposit_${currentUnixMilliseconds}.${attachmentFormat}`)
+            .catch(async (error) => {
+                console.log(error),
+                await interaction.editReply({
+                    embeds: [await errorMessages.errorOccurred(interaction, error)]
+                });
+            });
 
         // Send deposit request embed to current channel and request channel
         const depositRequestEmbed = new EmbedBuilder()
@@ -79,7 +79,7 @@ module.exports = {
                 `\n**Status:** Pending` +
                 `\n**Total:** $${amount.toLocaleString()}`
             )
-            .setImage(`attachment://screenshot_${currentUnixMilliseconds}.${attachmentFormat}`)
+            .setImage(`attachment://deposit_${currentUnixMilliseconds}.${attachmentFormat}`)
             .setColor("2F3136")
             .setTimestamp()
             .setFooter({ text: `Discover Banking • Transaction ID #${depositID}`, iconURL: interaction.guild.iconURL() });
@@ -98,9 +98,18 @@ module.exports = {
                     .setEmoji("1059331996305866823")
             );
 
-        const depositImage = new AttachmentBuilder(`./attachments/screenshot_${currentUnixMilliseconds}.${attachmentFormat}`);
+        const successEmbed = new EmbedBuilder()
+            .setTitle("Deposit Request")
+            .setDescription(`Your deposit request has been successfully sent to staff for review.`)
+            .setColor("2F3136")
+            .setTimestamp()
+            .setFooter({ text: `Discover Banking • Transaction ID #${depositID}`, iconURL: interaction.guild.iconURL() });
 
-        await interaction.editReply({ embeds: [depositRequestEmbed], files: [depositImage] });
+        const user = await client.users.fetch(interaction.user.id);
+        const depositImage = new AttachmentBuilder(`./attachments/deposit_${currentUnixMilliseconds}.${attachmentFormat}`);
+
+        await user.send({ embeds: [depositRequestEmbed], files: [depositImage] });
         await channel.send({ embeds: [depositRequestEmbed], components: [buttonRow], files: [depositImage] });
+        await interaction.editReply({ embeds: [successEmbed] });
     }
 };

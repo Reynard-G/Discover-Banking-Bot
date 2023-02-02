@@ -1,4 +1,4 @@
-const { ActionRowBuilder, EmbedBuilder, Embed } = require("discord.js");
+const { ActionRowBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
     id: "deposit_deny",
@@ -10,12 +10,6 @@ module.exports = {
         // Update the transaction
         await client.query("UPDATE transactions SET status = '0' WHERE id = ?", [transactionID]);
 
-        // Disable the buttons
-        const row = ActionRowBuilder.from(interaction.message.components[0]);
-        row.components.forEach(component => {
-            component.setDisabled(true);
-        });
-
         // Get user's ID from the message
         const userID = interaction.message.embeds[0].description.split("(").pop().split(")")[0];
 
@@ -25,11 +19,17 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Deposit Denied")
-                    .setDescription(`Your deposit with transaction ID#\`${transactionID}\` has been denied.`)
+                    .setDescription(`Your deposit with transaction ID **#${transactionID}** has been denied.`)
                     .setColor("Red")
                     .setTimestamp()
                     .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() })
             ]
+        });
+
+        // Disable the buttons
+        const row = ActionRowBuilder.from(interaction.message.components[0]);
+        row.components.forEach(component => {
+            component.setDisabled(true);
         });
 
         // Update the message by grabbing the embed from the message
