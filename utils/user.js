@@ -27,3 +27,13 @@ exports.exists = async function (client, interaction, userID = interaction.user.
         return null;
     }
 };
+
+exports.id = async function (client, userID) {
+    try {
+        const user = await client.query("SELECT id FROM accounts WHERE user_id = ?", [userID]);
+        return user.length > 0 ? user[0].id : null;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
+};

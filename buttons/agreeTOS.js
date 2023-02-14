@@ -1,11 +1,11 @@
 const { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require("discord.js");
-const checkUser = require("../utils/checkUser");
+const user = require("../utils/user.js");
 
 module.exports = {
     id: "agreeTOS",
     permissions: [],
     run: async (client, interaction) => {
-        if (await checkUser.exists(client, interaction, interaction.user.id, true, false)) return;
+        if (await user.exists(client, interaction, interaction.user.id, true, false)) return;
 
         const registerModal = new ModalBuilder()
             .setTitle("Discover Banking Registration")
@@ -31,8 +31,6 @@ module.exports = {
         row.components.forEach(component => {
             component.setDisabled(true);
         });
-        return await interaction.editReply({
-            components: [row]
-        });
+        return await interaction.editReply({ components: [row] });
     }
 };

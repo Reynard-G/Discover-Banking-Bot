@@ -1,6 +1,6 @@
 const { EmbedBuilder, ApplicationCommandType, ApplicationCommandOptionType } = require("discord.js");
 const Decimal = require("decimal.js");
-const checkUser = require("../../utils/checkUser.js");
+const user = require("../../utils/user.js");
 const accountDetails = require("../../utils/accountDetails.js");
 const errorMessages = require("../../utils/errorMessages.js");
 
@@ -33,7 +33,7 @@ module.exports = {
         const amount = await interaction.options.getInteger("amount");
 
         // Check if user is not registered
-        if (!(await checkUser.exists(client, interaction, interaction.user.id, false, true))) return;
+        if (!(await user.exists(client, interaction, interaction.user.id, false, true))) return;
 
         // Check if user is trying to send himself money or the bot
         if (receivingUserID === interaction.user.id || receivingUserID === client.user.id) {
@@ -43,7 +43,7 @@ module.exports = {
         }
 
         // Check if user is trying to send money to a user that is not registered
-        if (!(await checkUser.exists(client, interaction, receivingUserID, false, true))) {
+        if (!(await user.exists(client, interaction, receivingUserID, false, true))) {
             return interaction.editReply({
                 embeds: [await errorMessages.receivingUserDoesNotHaveAccount(interaction)]
             });

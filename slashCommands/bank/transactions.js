@@ -1,5 +1,5 @@
 const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ApplicationCommandType } = require("discord.js");
-const checkUser = require("../../utils/checkUser.js");
+const user = require("../../utils/user.js");
 const pagedEmbed = require("../../utils/pagedEmbed.js");
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
         await interaction.deferReply({ ephemeral: true });
 
         // Check if user is already registered
-        if (!(await checkUser.exists(client, interaction, interaction.user.id, false, true))) return;
+        if (!(await user.exists(client, interaction, interaction.user.id, false, true))) return;
 
         const types = {
             "CR": "📈",

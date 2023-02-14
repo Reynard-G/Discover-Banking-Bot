@@ -5,15 +5,11 @@ module.exports = {
     permissions: [],
     run: async (client, interaction) => {
         // Disable the buttons
-        const embed = EmbedBuilder.from(interaction.message.embeds[0]);
         const row = ActionRowBuilder.from(interaction.message.components[0]);
         row.components.forEach(component => {
             component.setDisabled(true);
         });
-        await interaction.update({
-            embeds: [embed],
-            components: [row]
-        });
+        await interaction.update({ components: [row] });
 
         return await interaction.followUp({
             ephemeral: true,

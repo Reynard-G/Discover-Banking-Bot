@@ -1,5 +1,5 @@
 const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ApplicationCommandType } = require("discord.js");
-const checkUser = require("../../utils/checkUser.js");
+const user = require("../../utils/user.js");
 
 module.exports = {
     name: "register",
@@ -12,7 +12,7 @@ module.exports = {
         await interaction.deferReply({ ephemeral: true });
 
         // Check if user is already registered
-        if (await checkUser.exists(client, interaction, interaction.user.id, true, true)) return;
+        if (await user.exists(client, interaction, interaction.user.id, true, true)) return;
 
         // Ask user to agree to TOS
         return await interaction.editReply({

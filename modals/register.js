@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const checkUser = require("../utils/checkUser.js");
+const user = require("../utils/user.js");
 const errorMessages = require("../utils/errorMessages.js");
 
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
         await interaction.deferReply({ ephemeral: true });
 
         // Check if user already has an account
-        if (await checkUser.exists(client, interaction, interaction.user.id, true, true)) return;
+        if (await user.exists(client, interaction, interaction.user.id, true, true)) return;
 
         const username = interaction.fields.getTextInputValue("ignInput");
 

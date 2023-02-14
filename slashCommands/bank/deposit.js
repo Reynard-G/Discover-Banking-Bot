@@ -1,6 +1,6 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, AttachmentBuilder, ApplicationCommandType, ApplicationCommandOptionType } = require("discord.js");
 const Decimal = require("decimal.js");
-const checkUser = require("../../utils/checkUser.js");
+const user = require("../../utils/user.js");
 const accountDetails = require("../../utils/accountDetails.js");
 const errorMessages = require("../../utils/errorMessages.js");
 const attachment = require("../../utils/attachment.js");
@@ -34,7 +34,7 @@ module.exports = {
         const screenshot = await interaction.options.getAttachment("screenshot");
 
         // Check if user is not registered
-        if (!(await checkUser.exists(client, interaction, interaction.user.id, false, true))) return;
+        if (!(await user.exists(client, interaction, interaction.user.id, false, true))) return;
 
         // Check if attachment is image
         if (!(await attachment.isImage(screenshot))) {

@@ -80,3 +80,48 @@ exports.imageDownloadFailed = async function (interaction) {
         .setTimestamp()
         .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() });
 };
+
+exports.invalidLoanDetails = async function (interaction) {
+    return new EmbedBuilder()
+        .setTitle("Loan Application Failed")
+        .setDescription("The loan details you provided are invalid. Please make sure you have entered a valid amount within the valid ranges.")
+        .setColor("Red")
+        .setTimestamp()
+        .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() });
+};
+
+exports.loanNotFound = async function (interaction) {
+    return new EmbedBuilder()
+        .setTitle("Loan Payment Failed")
+        .setDescription("The loan ID you provided is invalid. Please make sure you have entered a valid loan ID.")
+        .setColor("Red")
+        .setTimestamp()
+        .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() });
+};
+
+exports.loanPaid = async function (interaction) {
+    return new EmbedBuilder()
+        .setTitle("Loan Payment Failed")
+        .setDescription("It appears that the loan you are trying to pay off has already been paid.")
+        .setColor("Red")
+        .setTimestamp()
+        .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() });
+};
+
+exports.notANumber = async function (interaction) {
+    return new EmbedBuilder()
+        .setTitle("Invalid Amount")
+        .setDescription("You have inputted an invalid number. Please try again.")
+        .setColor("Red")
+        .setTimestamp()
+        .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() });
+};
+
+exports.invalidDate = async function (interaction) {
+    return new EmbedBuilder()
+        .setTitle("Invalid Date")
+        .setDescription("You have inputted an invalid date. Please try again.")
+        .setColor("Red")
+        .setTimestamp()
+        .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() });
+};
