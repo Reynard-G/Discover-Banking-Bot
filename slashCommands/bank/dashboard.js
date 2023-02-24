@@ -34,7 +34,6 @@ module.exports = {
                 )
                 .setColor("#2F3136")
                 .setTimestamp()
-                .setFooter({ text: "Discover Bank", iconURL: interaction.guild.iconURL() })
         );
 
         // Loan details string
@@ -70,7 +69,6 @@ module.exports = {
                 )
                 .setColor("#2F3136")
                 .setTimestamp()
-                .setFooter({ text: "Discover Bank", iconURL: interaction.guild.iconURL() })
         );
 
         // Create buttons

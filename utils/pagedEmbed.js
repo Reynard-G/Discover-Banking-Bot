@@ -1,12 +1,13 @@
-exports.listener = async (interaction, pages, buttons, timeout = 300000) => {
-    if (!interaction || !pages || !buttons || timeout < 0) throw new Error("Invalid arguments provided.");
+exports.listener = async (interaction, pages, buttons = undefined, timeout = 300000) => {
+    if (!interaction || !pages || timeout < 0) throw new Error("Invalid arguments provided.");
 
     if (pages.length === 1) {
         return interaction.editReply({ embeds: [pages[0]] });
     }
 
     let page = 0;
-    const msg = await interaction.editReply({ embeds: [pages[0]], components: [buttons] });
+    pages[0].setFooter({ text: `Discover Banking • Page ${page + 1} of ${pages.length}`, iconURL: interaction.guild.iconURL() });
+    const msg = buttons ? await interaction.editReply({ embeds: [pages[0]], components: [buttons] }) : await interaction.editReply({ embeds: [pages[0]] });
 
     const filter = (i) => i.customId === "previous" || i.customId === "next" && i.user.id === interaction.user.id;
     const collector = msg.createMessageComponentCollector({ filter, time: timeout });

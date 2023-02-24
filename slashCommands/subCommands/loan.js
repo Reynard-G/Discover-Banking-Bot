@@ -35,5 +35,20 @@ module.exports = {
                 }
             ],
         },
+        {
+            name: "details",
+            description: "View details about a loan.",
+            type: ApplicationCommandOptionType.Subcommand,
+            cooldown: 3000,
+            options: [
+                {
+                    name: "loan_id",
+                    description: "The loan ID to view.",
+                    type: ApplicationCommandOptionType.Integer,
+                    required: true,
+                    min_value: 1,
+                }
+            ],
+        },
     ],
 };

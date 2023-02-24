@@ -9,7 +9,7 @@ module.exports = {
         // Defer reply to prevent interaction timeout
         await interaction.deferReply();
 
-        // Get loanID from options
+        // Get variables from options
         const loanID = await interaction.options.getInteger("loan_id");
         const useBalance = await interaction.options.getBoolean("use_balance");
         const note = await interaction.options.getString("note");

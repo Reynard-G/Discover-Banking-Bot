@@ -34,8 +34,7 @@ module.exports = {
             .setTitle("Transaction History")
             .setDescription("For privacy reasons, you can only switch between pages of your transaction history for **5 minutes.**")
             .setColor("#2F3136")
-            .setTimestamp()
-            .setFooter({ text: `Discover Banking • Page 1 of ${Math.ceil(transactions.length / 5)}`, iconURL: interaction.guild.iconURL() });
+            .setTimestamp();
 
         // Add fields
         let pages = [];
@@ -47,7 +46,6 @@ module.exports = {
                     .setDescription("For privacy reasons, you can only switch between pages of your transaction history for **5 minutes.**")
                     .setColor("#2F3136")
                     .setTimestamp()
-                    .setFooter({ text: `Discover Banking • Page ${Math.ceil(i / 5)} of ${Math.ceil(transactions.length / 5)}`, iconURL: interaction.guild.iconURL() });
             }
 
             if (transactions[i]) {
