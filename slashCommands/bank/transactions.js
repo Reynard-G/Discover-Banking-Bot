@@ -1,6 +1,7 @@
 const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ApplicationCommandType } = require("discord.js");
 const user = require("../../utils/user.js");
 const pagedEmbed = require("../../utils/pagedEmbed.js");
+const errorMessages = require("../../utils/errorMessages.js");
 
 module.exports = {
     name: "transactions",
@@ -29,6 +30,11 @@ module.exports = {
         // Get user's transactions
         const transactions = await client.query(`SELECT id, amount, fee, cr_dr, status, note, UNIX_TIMESTAMP(created_at), UNIX_TIMESTAMP(updated_at) FROM transactions WHERE user_id = "${interaction.user.id}" ORDER BY id DESC`);
 
+        // Check if user has no transactions
+        if (transactions.length === 0) {
+            return await interaction.editReply({ embeds: [await errorMessages.noTransactionsFound(interaction)] });
+        }
+
         // Create embed
         let embed = new EmbedBuilder()
             .setTitle("Transaction History")
@@ -45,7 +51,7 @@ module.exports = {
                     .setTitle("Transaction History")
                     .setDescription("For privacy reasons, you can only switch between pages of your transaction history for **5 minutes.**")
                     .setColor("#2F3136")
-                    .setTimestamp()
+                    .setTimestamp();
             }
 
             if (transactions[i]) {

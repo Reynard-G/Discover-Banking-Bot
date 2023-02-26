@@ -50,7 +50,8 @@ module.exports = {
         }
 
         // Check if user has enough money
-        const balance = await accountDetails.balance(client, interaction.user.id);
+        const userID = await user.id(client, interaction.user.id);
+        const balance = await accountDetails.balance(client, userID);
         if (balance < amount) {
             return interaction.editReply({
                 embeds: [await errorMessages.notEnoughMoney(interaction)]
@@ -62,8 +63,8 @@ module.exports = {
         const fee = new Decimal(1).minus(process.env.TRANSFER_FEE);
         const amountReceived = new Decimal(amount).times(fee).toNumber();
         const feeAmount = new Decimal(amount).minus(amountReceived).toNumber();
-        await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [interaction.user.id, amount, feeAmount, "DR", 1, "Transfer to " + await accountDetails.username(client, receivingUserID), interaction.user.id, interaction.user.id]);
-        await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [receivingUserID, amountReceived, feeAmount, "CR", 1, "Transfer from " + await accountDetails.username(client, interaction.user.id), interaction.user.id, interaction.user.id]);
+        await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [userID, amount, feeAmount, "DR", 1, "Transfer to " + await accountDetails.username(client, receivingUserID), userID, userID]);
+        await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [receivingUserID, amountReceived, feeAmount, "CR", 1, "Transfer from " + await accountDetails.username(client, interaction.user.id), userID, userID]);
 
         // Send receiving user a message
         const receivingUser = await client.users.fetch(receivingUserID);

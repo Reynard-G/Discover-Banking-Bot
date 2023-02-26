@@ -22,7 +22,7 @@ module.exports = {
         }
 
         // Create user
-        await client.query("INSERT INTO accounts (user_id, username) VALUES (?, ?)", [interaction.user.id, username]);
+        await client.query("INSERT INTO accounts (discord_id, username) VALUES (?, ?)", [interaction.user.id, username]);
 
         // Send success message
         await interaction.editReply({

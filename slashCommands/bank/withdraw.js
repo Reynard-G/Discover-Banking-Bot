@@ -29,7 +29,8 @@ module.exports = {
         if (!(await user.exists(client, interaction, interaction.user.id, false, true))) return;
 
         // Check if user has enough money in their bank account
-        if (amount > await accountDetails.balance(client, interaction.user.id)) {
+        const userID = await user.id(client, interaction.user.id);
+        if (amount > await accountDetails.balance(client, userID)) {
             return interaction.editReply({
                 embeds: [await errorMessages.notEnoughMoney(interaction)]
             });
@@ -42,7 +43,7 @@ module.exports = {
         const channel = await client.channels.fetch(process.env.REQUESTS_CHANNEL_ID);
 
         // Store pending withdraw to MySQL database & download attachment
-        const withdrawID = (await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()`, [interaction.user.id, amountWithdrawed, feeAmount, "DR", 2, `Withdrawal of $${amount}`, interaction.user.id, interaction.user.id]))[1][0]["LAST_INSERT_ID()"];
+        const withdrawID = (await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()`, [userID, amountWithdrawed, feeAmount, "DR", 2, `Withdrawal of $${amount}`, userID, userID]))[1][0]["LAST_INSERT_ID()"];
 
         // Send withdrawal request embed to current channel and request channel
         const withdrawRequestEmbed = new EmbedBuilder()

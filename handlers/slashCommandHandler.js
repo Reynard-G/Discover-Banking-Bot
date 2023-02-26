@@ -22,7 +22,7 @@ module.exports = (client) => {
 				const subFiles = fs.readdirSync(`./slashCommands/subCommands/${subdir}/`).filter(file => file.endsWith(".js"));
 				for (const file of subFiles) {
 					const subCommand = require(`../slashCommands/subCommands/${subdir}/${file}`);
-					client.subCommands.set(subCommand.name, subCommand);
+					client.subCommands.set(`${subdir} ${subCommand.name}`, subCommand);
 				}
 			});
 		}

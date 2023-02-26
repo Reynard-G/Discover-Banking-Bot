@@ -6,7 +6,7 @@ module.exports = {
     name: "details",
     run: async (client, interaction) => {
         // Defer reply to prevent interaction timeout
-        await interaction.deferReply();
+        await interaction.deferReply({ ephemeral: true });
 
         // Get loanID from options
         const loanID = await interaction.options.getInteger("loan_id");

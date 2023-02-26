@@ -30,25 +30,24 @@ module.exports = {
         }
 
         // Query to db
-        const userID = await accountDetails.user_id(client, loan.user_id);
         let transactionID = null;
         if (useBalance) {
             if (accountDetails.balance(client, loan.user_id) < loanRepayments[0].amount) {
                 await interaction.editReply({ embeds: [await errorMessages.notEnoughMoney(interaction)] });
             } else {
-                transactionID = (await client.query("INSERT INTO transactions (user_id, amount, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()", [userID, loanRepayments[0].amount, "DR", 1, note, interaction.user.id, interaction.user.id]))[1][0]["LAST_INSERT_ID()"];
+                transactionID = (await client.query("INSERT INTO transactions (user_id, amount, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()", [loan.user_id, loanRepayments[0].amount, "DR", 1, note, loan.user_id, loan.user_id]))[1][0]["LAST_INSERT_ID()"];
             }
-
         }
         await client.query("UPDATE loan_repayments SET status = 1 WHERE id = ?", [loanRepayments[0].id]);
         await client.query("INSERT INTO loan_payments (loan_id, user_id, repayment_id, note) VALUES (?, ?, ?, ?)", [loanID, loan.user_id, loanRepayments[0].id, note]);
 
         // Send success message
+        const discordID = await accountDetails.discordID(client, loan.user_id);
         return await interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Loan Payment")
-                    .setDescription(`The payment for <@${userID}> (${userID}) has been submitted.`)
+                    .setDescription(`The payment for <@${discordID}> (${discordID}) has been submitted.`)
                     .addFields(
                         { name: "Loan ID", value: `#${loanID}` },
                         { name: "Amount", value: `$${loanRepayments[0].amount}` },

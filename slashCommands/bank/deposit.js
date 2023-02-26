@@ -57,9 +57,10 @@ module.exports = {
         const channel = await client.channels.fetch(process.env.REQUESTS_CHANNEL_ID);
         const attachmentFormat = screenshot.contentType.split("/").pop();
         const currentUnixMilliseconds = new Date().getTime();
+        const userID = await user.id(client, interaction.user.id);
 
         // Store pending deposit to MySQL database & download attachment
-        const depositID = (await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, attachment, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()`, [interaction.user.id, amountDeposited, feeAmount, "CR", 2, `Deposit of $${amount}`, `deposit_${currentUnixMilliseconds}.${attachmentFormat}`, interaction.user.id, interaction.user.id]))[1][0]["LAST_INSERT_ID()"];
+        const depositID = (await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, attachment, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()`, [userID, amountDeposited, feeAmount, "CR", 2, `Deposit of $${amount}`, `deposit_${currentUnixMilliseconds}.${attachmentFormat}`, userID, userID]))[1][0]["LAST_INSERT_ID()"];
         await attachment.download(screenshot.url, `./attachments/deposit_${currentUnixMilliseconds}.${attachmentFormat}`)
             .catch(async (error) => {
                 console.log(error),
@@ -105,10 +106,10 @@ module.exports = {
             .setTimestamp()
             .setFooter({ text: `Discover Banking • Transaction ID #${depositID}`, iconURL: interaction.guild.iconURL() });
 
-        const user = await client.users.fetch(interaction.user.id);
+        const receivingUser = await client.users.fetch(interaction.user.id);
         const depositImage = new AttachmentBuilder(`./attachments/deposit_${currentUnixMilliseconds}.${attachmentFormat}`);
 
-        await user.send({ embeds: [depositRequestEmbed], files: [depositImage] });
+        await receivingUser.send({ embeds: [depositRequestEmbed], files: [depositImage] });
         await channel.send({ embeds: [depositRequestEmbed], components: [buttonRow], files: [depositImage] });
         await interaction.editReply({ embeds: [successEmbed] });
     }

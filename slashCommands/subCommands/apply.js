@@ -13,6 +13,26 @@ module.exports = {
             description: "Apply for a credit card.",
             type: ApplicationCommandOptionType.Subcommand,
             cooldown: 3000,
+            options: [
+                {
+                    name: "user",
+                    description: "The user to apply for a credit card for.",
+                    type: ApplicationCommandOptionType.User,
+                    required: true,
+                },
+                {
+                    name: "creditcard",
+                    description: "The type of credit card to apply for.",
+                    type: ApplicationCommandOptionType.String,
+                    required: true,
+                    choices: [
+                        {
+                            name: "Explore Credit Card",
+                            value: "1",
+                        }
+                    ],
+                },
+            ],
         },
         {
             name: "loan",

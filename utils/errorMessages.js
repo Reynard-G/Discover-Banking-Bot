@@ -1,5 +1,14 @@
 const { EmbedBuilder } = require("discord.js");
 
+exports.noPermission = async function (interaction) {
+    return new EmbedBuilder()
+        .setTitle("No Permission")
+        .setDescription("You do not have permission to use this command.")
+        .setColor("Red")
+        .setTimestamp()
+        .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() });
+};
+
 exports.alreadyHasAccount = async function (interaction) {
     return new EmbedBuilder()
         .setTitle("Registration Failed")
@@ -40,6 +49,15 @@ exports.receivingUserDoesNotHaveAccount = async function (interaction) {
     return new EmbedBuilder()
         .setTitle("Transfer Failed")
         .setDescription("This user is not registered with us. Please ask them to register with `/register` in order to continue.")
+        .setColor("Red")
+        .setTimestamp()
+        .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() });
+};
+
+exports.invalidAccountID = async function (interaction) {
+    return new EmbedBuilder()
+        .setTitle("Transfer Failed")
+        .setDescription("The account ID you provided is invalid or does not exist. Please check the account ID and try again.")
         .setColor("Red")
         .setTimestamp()
         .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() });
@@ -125,3 +143,39 @@ exports.invalidDate = async function (interaction) {
         .setTimestamp()
         .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() });
 };
+
+exports.noTransactionsFound = async function (interaction) {
+    return new EmbedBuilder()
+        .setTitle("No Transactions Found")
+        .setDescription("It appears you have no transactions with us. Please try again later.")
+        .setColor("Red")
+        .setTimestamp()
+        .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() });
+};
+
+exports.alreadyHasCreditcard = async function (interaction) {
+    return new EmbedBuilder()
+        .setTitle("Credit Card Application Failed")
+        .setDescription("It appears the user already has a credit card with us. If you believe this is a mistake, please contact a staff member by opening a ticket.")
+        .setColor("Red")
+        .setTimestamp()
+        .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() });
+}
+
+exports.insufficientCreditcardBalance = async function (interaction) {
+    return new EmbedBuilder()
+        .setTitle("Credit Card Payment Failed")
+        .setDescription("The credit card balance is insufficient for the requested amount. Please try again.")
+        .setColor("Red")
+        .setTimestamp()
+        .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() });
+}
+
+exports.creditcardNotFound = async function (interaction) {
+    return new EmbedBuilder()
+        .setTitle("Credit Card Failed")
+        .setDescription("It appears you do not have a credit card with us. To continue, please apply for one by opening a ticket.")
+        .setColor("Red")
+        .setTimestamp()
+        .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() });
+}

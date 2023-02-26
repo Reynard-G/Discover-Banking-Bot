@@ -18,8 +18,9 @@ module.exports = {
         if (!(await user.exists(client, interaction, interaction.user.id, false, true))) return;
 
         // Get user details
+        const userID = await user.id(client, interaction.user.id)
         const username = await accountDetails.username(client, interaction.user.id);
-        const balance = await accountDetails.balance(client, interaction.user.id);
+        const balance = await accountDetails.balance(client, userID);
 
         // Create embeds
         let pages = [];

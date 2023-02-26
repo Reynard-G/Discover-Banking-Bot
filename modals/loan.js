@@ -12,8 +12,8 @@ module.exports = {
         // Defer reply to prevent interaction timeout
         await interaction.deferReply();
 
-        const { userID, amount, loanProductID } = require("../slashCommands/subCommands/apply/loan.js");
-        const id = await user.id(client, userID);
+        const { userDiscordID, amount, loanProductID } = require("../slashCommands/subCommands/apply/loan.js");
+        const userID = await user.id(client, userDiscordID);
         const interestRate = await interaction.fields.getTextInputValue("interestRateInput");
         const firstPaymentDate = await interaction.fields.getTextInputValue("firstPaymentDateInput");
         const term = await interaction.fields.getTextInputValue("termInput");
@@ -21,7 +21,7 @@ module.exports = {
         const note = await interaction.fields.getTextInputValue("noteInput");
 
         // Check if user is not registered
-        if (!(await user.exists(client, interaction, userID, false, true))) return;
+        if (!(await user.exists(client, interaction, userDiscordID, false, true))) return;
 
         // Check if amount, interestRate, term, and termPeriod are numbers
         if (isNaN(amount) || isNaN(interestRate) || isNaN(term) || isNaN(termPeriod)) {
@@ -39,7 +39,7 @@ module.exports = {
         }
 
         // Query information to db
-        const loanID = (await client.query(`INSERT INTO loans (user_id, loan_product_id, first_payment_date, applied_amount, interest_rate, term, term_period, total_payable, note, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()`, [id, loanProductID, moment(firstPaymentDate, "YYYY-MM-DD").format("YYYY-MM-DD"), amount, interestRate, term, termPeriod, Decimal(amount).mul(Decimal(interestRate).div(100).add(1)).toNumber(), note, 1]))[1][0]["LAST_INSERT_ID()"];
+        const loanID = (await client.query(`INSERT INTO loans (user_id, loan_product_id, first_payment_date, applied_amount, interest_rate, term, term_period, total_payable, note, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()`, [userID, loanProductID, moment(firstPaymentDate, "YYYY-MM-DD").format("YYYY-MM-DD"), amount, interestRate, term, termPeriod, Decimal(amount).mul(Decimal(interestRate).div(100).add(1)).toNumber(), note, 1]))[1][0]["LAST_INSERT_ID()"];
 
         // Query to loan_repayments table
         for (let i = 0; i < term; i++) {
@@ -51,7 +51,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Loan Application")
-                    .setDescription(`The loan application for <@${userID}> (${userID}) has been submitted.`)
+                    .setDescription(`The loan application for <@${userDiscordID}> (${userDiscordID}) has been submitted.`)
                     .addFields(
                         { name: "Loan ID", value: `#${loanID}`},
                         { name: "Amount", value: `$${amount}` },

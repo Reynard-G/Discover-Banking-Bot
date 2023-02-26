@@ -53,7 +53,7 @@ client.on("interactionCreate", async interaction => {
 
 		// Subcommand handler
 		if (subCommandOption) {
-			const subCommand = client.subCommands.get(subCommandOption);
+			const subCommand = client.subCommands.get(`${interaction.commandName} ${subCommandOption}`, subCommandOption);
 			if (subCommand) {
 				subCommand.run(client, interaction);
 			}
