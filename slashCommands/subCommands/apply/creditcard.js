@@ -1,4 +1,4 @@
-const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, EmbedBuilder } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const user = require("../../../utils/user.js");
 const errorMessages = require("../../../utils/errorMessages.js");
 

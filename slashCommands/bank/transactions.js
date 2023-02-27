@@ -28,7 +28,8 @@ module.exports = {
         };
 
         // Get user's transactions
-        const transactions = await client.query(`SELECT id, amount, fee, cr_dr, status, note, UNIX_TIMESTAMP(created_at), UNIX_TIMESTAMP(updated_at) FROM transactions WHERE user_id = "${interaction.user.id}" ORDER BY id DESC`);
+        const userID = await user.id(client, interaction.user.id);
+        const transactions = await client.query(`SELECT id, amount, fee, cr_dr, status, note, UNIX_TIMESTAMP(created_at), UNIX_TIMESTAMP(updated_at) FROM transactions WHERE user_id = ? ORDER BY id DESC`, [userID]);
 
         // Check if user has no transactions
         if (transactions.length === 0) {

@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, AttachmentBuilder, ApplicationCommandType, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ApplicationCommandType, ApplicationCommandOptionType } = require("discord.js");
 const Decimal = require("decimal.js");
 const user = require("../../utils/user.js");
 const accountDetails = require("../../utils/accountDetails.js");
@@ -82,9 +82,9 @@ module.exports = {
             .setFooter({ text: `Discover Banking • Transaction ID #${withdrawID}`, iconURL: interaction.guild.iconURL() });
 
 
-        const user = await client.users.fetch(interaction.user.id);
+        const receivingUser = await client.users.fetch(interaction.user.id);
 
-        await user.send({ embeds: [withdrawRequestEmbed] });
+        await receivingUser.send({ embeds: [withdrawRequestEmbed] });
         await channel.send({ embeds: [withdrawRequestEmbed], components: [buttonRow] });
         await interaction.editReply({ embeds: [successEmbed] });
     }

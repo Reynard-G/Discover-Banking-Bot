@@ -18,7 +18,7 @@ module.exports = {
 
         // Get transactions data
         const id = await creditcards.id(client, userID);
-        const transactions = await client.query(`SELECT *, UNIX_TIMESTAMP(created_at) AS created_at_unix, UNIX_TIMESTAMP(updated_at) AS updated_at_unix FROM transactions WHERE creditcard_id = ${id} ORDER BY id DESC`);
+        const transactions = await client.query(`SELECT *, UNIX_TIMESTAMP(created_at) AS created_at_unix, UNIX_TIMESTAMP(updated_at) AS updated_at_unix FROM transactions WHERE creditcard_id = ? ORDER BY id DESC`, [id]);
 
         // Check if user has no transactions
         if (transactions.length === 0) {

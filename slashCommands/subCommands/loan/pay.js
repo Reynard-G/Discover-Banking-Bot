@@ -39,7 +39,7 @@ module.exports = {
             }
         }
         await client.query("UPDATE loan_repayments SET status = 1 WHERE id = ?", [loanRepayments[0].id]);
-        await client.query("INSERT INTO loan_payments (loan_id, user_id, repayment_id, note) VALUES (?, ?, ?, ?)", [loanID, loan.user_id, loanRepayments[0].id, note]);
+        await client.query("INSERT INTO loan_payments (loan_id, user_id, transaction_id, repayment_id, note) VALUES (?, ?, ?, ?, ?)", [loanID, loan.user_id, transactionID, loanRepayments[0].id, note]);
 
         // Send success message
         const discordID = await accountDetails.discordID(client, loan.user_id);
