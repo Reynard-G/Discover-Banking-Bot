@@ -17,6 +17,15 @@ client.on("interactionCreate", async interaction => {
 	if (!slashCommand) return client.slashCommands.delete(interaction.commandName);
 
 	const subCommandOption = interaction.options.getSubcommand(false) || interaction.options.getSubcommandGroup(false);
+	const subCommand = subCommandOption ? client.subCommands.get(`${interaction.commandName} ${subCommandOption}`, subCommandOption) : null;
+
+	// Logging
+	if (subCommand) {
+		console.log(`${interaction.user.tag} (${interaction.user.id})`, `${slashCommand.name} ${subCommand.name}`);
+	} else {
+		console.log(`${interaction.user.tag} (${interaction.user.id})`, slashCommand.name);
+	}
+
 	try {
 		if (slashCommand.cooldown) {
 			if (cooldown.has(`slash-${slashCommand.name}${interaction.user.id}`)) {
@@ -53,7 +62,6 @@ client.on("interactionCreate", async interaction => {
 
 		// Subcommand handler
 		if (subCommandOption) {
-			const subCommand = client.subCommands.get(`${interaction.commandName} ${subCommandOption}`, subCommandOption);
 			if (subCommand) {
 				subCommand.run(client, interaction);
 			}
