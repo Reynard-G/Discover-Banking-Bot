@@ -35,7 +35,7 @@ module.exports = {
 
         // Query transaction
         await client.query(`INSERT INTO transactions (user_id, amount, cr_dr, status, note, creditcard_id, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [userID, amount, "DR", 1, note, await creditcards.id(client, userID), userID, userID]);
-        await client.query(`INSERT INTO transactions (user_id, amount, cr_dr, status, note, creditcard_id, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [receivingAccountID, amount, "CR", 1, note, null, receivingAccountID, receivingAccountID]);
+        await client.query(`INSERT INTO transactions (user_id, amount, cr_dr, status, note, creditcard_id, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [receivingAccountID, amount, "CR", 1, note, null, userID, userID]);
 
         // Send the receiving account transaction embed
         const receivingDiscordID = (await client.query(`SELECT discord_id FROM accounts WHERE id = ${receivingAccountID}`))[0]["discord_id"].toString();
