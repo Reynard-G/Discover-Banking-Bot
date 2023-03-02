@@ -1,4 +1,3 @@
-
 const errorMessages = require("./errorMessages.js");
 
 exports.exists = async function (client, interaction, userID = interaction.user.id, checkForRegistered, deferred = true) {

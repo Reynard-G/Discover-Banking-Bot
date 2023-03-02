@@ -56,19 +56,13 @@ module.exports = {
             if (i % 5 === 0 && i !== 0) {
                 loanDetailsPages.push(new EmbedBuilder()
                     .setTitle(`Loan Repayment Details`)
-                    .setDescription(loanRepaymentString)
+                    .setDescription(`${loanRepaymentString}`)
                     .setColor("2F3136")
                     .setTimestamp()
                 );
                 loanRepaymentString = "";
             }
         }
-        loanDetailsPages.push(new EmbedBuilder()
-            .setTitle(`Loan Repayment Details`)
-            .setDescription(loanRepaymentString)
-            .setColor("2F3136")
-            .setTimestamp()
-        );
 
         // Create buttons
         const buttons = new ActionRowBuilder()

@@ -3,7 +3,7 @@ const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = req
 module.exports = {
     name: "loan",
     run: async (client, interaction) => {
-        const userID = await interaction.options.getUser("user").id;
+        const userDiscordID = await interaction.options.getUser("user").id;
         const amount = await interaction.options.getNumber("amount");
         const loanProductID = await interaction.options.getString("type");
 
@@ -56,6 +56,6 @@ module.exports = {
         modal.addComponents(interestRateRow, firstPaymentDateRow, termRow, termPeriodRow, noteRow);
         await interaction.showModal(modal);
 
-        return module.exports = { userID, amount, loanProductID };
+        return module.exports = { userDiscordID, amount, loanProductID };
     }
 };
