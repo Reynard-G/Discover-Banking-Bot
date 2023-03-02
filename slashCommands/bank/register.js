@@ -22,7 +22,7 @@ module.exports = {
                     .setDescription(
                         "By clicking the button below, you agree to the terms of service." +
                         "\n\n**Terms of Service**" +
-                        "\nhttps://docs.google.com/document/d/1-ZAsuiAzQ2oQPYVQL5LhlKLXcR3XZQ2nqxFOYKPaB88/edit?usp=sharing"
+                        "\nhttps://docs.google.com/document/d/1ZcWLQSfI9PrJsIAd2g2ZpE-H8L-l8Z4VZvwDwA6ZGFI/edit"
                     )
                     .setColor("#2F3136")
                     .setTimestamp()
