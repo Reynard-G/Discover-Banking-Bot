@@ -10,7 +10,8 @@ module.exports = {
         await interaction.deferReply();
 
         // Get variables from options
-        const receivingAccountID = await interaction.options.getInteger("account_id");
+        const receivingUserID = await interaction.options.getUser("user").id;
+        const receivingAccountID = await user.id(client, receivingUserID);
         const amount = await interaction.options.getInteger("amount");
         const note = await interaction.options.getString("note");
 

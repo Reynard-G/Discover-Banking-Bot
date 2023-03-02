@@ -14,9 +14,9 @@ module.exports = {
             cooldown: 3000,
             options: [
                 {
-                    name: "account_id",
-                    description: "The account ID to pay.",
-                    type: ApplicationCommandOptionType.Integer,
+                    name: "user",
+                    description: "The user to pay.",
+                    type: ApplicationCommandOptionType.User,
                     required: true,
                     min_value: 1,
                 },
