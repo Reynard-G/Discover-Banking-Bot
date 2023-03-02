@@ -66,6 +66,12 @@ module.exports = {
                     required: true,
                     min_value: 1,
                 },
+                {
+                    name: "note",
+                    description: "A note for the creditcard payback payment.",
+                    type: ApplicationCommandOptionType.String,
+                    required: false,
+                }
             ],
         },
     ],
