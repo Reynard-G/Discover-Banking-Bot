@@ -5,7 +5,7 @@ client.on("interactionCreate", async interaction => {
     try {
         if (interaction.isModalSubmit()) {
             if (!interaction.guild) {
-                await interaction.reply({
+                interaction.reply({
                     ephemeral: true,
                     content: `You do not have to use this modal in DMs!`
                 });
@@ -17,7 +17,7 @@ client.on("interactionCreate", async interaction => {
 
             const command = client.modals.get(interaction.customId);
             if (!command) {
-                await interaction.reply({
+                interaction.reply({
                     ephemeral: true,
                     embeds: [
                         new EmbedBuilder()

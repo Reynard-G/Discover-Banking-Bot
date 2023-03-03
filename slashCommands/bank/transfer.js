@@ -83,7 +83,7 @@ module.exports = {
         });
 
         // Send confirmation message
-        return await interaction.editReply({
+        return interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Transfer Successful")

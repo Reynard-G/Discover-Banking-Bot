@@ -15,7 +15,7 @@ module.exports = {
         if (await user.exists(client, interaction, interaction.user.id, true, true)) return;
 
         // Ask user to agree to TOS
-        return await interaction.editReply({
+        return interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Discover Account Registration")

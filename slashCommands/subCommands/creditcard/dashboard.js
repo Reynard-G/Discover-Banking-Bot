@@ -20,7 +20,7 @@ module.exports = {
         const balance = (await creditcards.balance(client, userID)).toLocaleString("en-US", { style: "currency", currency: "USD" });
         const limit = (await creditcards.limit(client, userID)).toLocaleString("en-US", { style: "currency", currency: "USD" });
 
-        await interaction.editReply({
+        return interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Credit Card Details")

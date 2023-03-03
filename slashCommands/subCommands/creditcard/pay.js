@@ -17,13 +17,13 @@ module.exports = {
 
         // Check if sending account exists
         if ((await client.query(`SELECT * FROM accounts WHERE id = "${receivingAccountID}"`)).length === 0) {
-            return await interaction.editReply({ embeds: [await errorMessages.invalidAccountID(interaction)] });
+            return interaction.editReply({ embeds: [await errorMessages.invalidAccountID(interaction)] });
         }
 
         // Check if creditcard has enough balance
         const userID = await user.id(client, interaction.user.id);
         if ((await creditcards.balance(client, userID)) < amount) {
-            return await interaction.editReply({ embeds: [await errorMessages.insufficientCreditcardBalance(interaction)] });
+            return interaction.editReply({ embeds: [await errorMessages.insufficientCreditcardBalance(interaction)] });
         }
 
         // Check if user is sending to themselves
@@ -55,7 +55,7 @@ module.exports = {
         });
 
         // Send the sending account transaction embed
-        await interaction.editReply({
+        return interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Credit Card Payment Sent")

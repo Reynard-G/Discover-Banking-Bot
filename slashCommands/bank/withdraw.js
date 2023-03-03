@@ -86,6 +86,6 @@ module.exports = {
 
         await receivingUser.send({ embeds: [withdrawRequestEmbed] });
         await channel.send({ embeds: [withdrawRequestEmbed], components: [buttonRow] });
-        await interaction.editReply({ embeds: [successEmbed] });
+        return interaction.editReply({ embeds: [successEmbed] });
     }
 };

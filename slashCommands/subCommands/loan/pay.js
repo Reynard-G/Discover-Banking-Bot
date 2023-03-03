@@ -20,20 +20,20 @@ module.exports = {
 
         // Check if loan exists
         if (!loan) {
-            return await interaction.editReply({ embeds: [await errorMessages.loanNotFound(interaction)] });
+            return interaction.editReply({ embeds: [await errorMessages.loanNotFound(interaction)] });
         }
 
         // Check if loan needs to be paid
         if (!loanRepayments[0]) {
             await client.query("UPDATE loans SET status = 2 WHERE id = ?", [loanID]);
-            return await interaction.editReply({ embeds: [await errorMessages.loanPaid(interaction)] });
+            return interaction.editReply({ embeds: [await errorMessages.loanPaid(interaction)] });
         }
 
         // Query to db
         let transactionID = null;
         if (useBalance) {
             if (accountDetails.balance(client, loan.user_id) < loanRepayments[0].amount) {
-                await interaction.editReply({ embeds: [await errorMessages.notEnoughMoney(interaction)] });
+                interaction.editReply({ embeds: [await errorMessages.notEnoughMoney(interaction)] });
             } else {
                 transactionID = (await client.query("INSERT INTO transactions (user_id, amount, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()", [loan.user_id, loanRepayments[0].amount, "DR", 1, note, loan.user_id, loan.user_id]))[1][0]["LAST_INSERT_ID()"];
             }
@@ -43,7 +43,7 @@ module.exports = {
 
         // Send success message
         const discordID = await accountDetails.discordID(client, loan.user_id);
-        return await interaction.editReply({
+        return interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Loan Payment")

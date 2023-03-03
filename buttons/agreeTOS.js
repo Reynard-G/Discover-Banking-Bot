@@ -31,6 +31,6 @@ module.exports = {
         row.components.forEach(component => {
             component.setDisabled(true);
         });
-        return await interaction.editReply({ components: [row] });
+        return interaction.editReply({ components: [row] });
     }
 };

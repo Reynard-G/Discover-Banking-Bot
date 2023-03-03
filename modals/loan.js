@@ -25,17 +25,17 @@ module.exports = {
 
         // Check if amount, interestRate, term, and termPeriod are numbers
         if (isNaN(amount) || isNaN(interestRate) || isNaN(term) || isNaN(termPeriod)) {
-            return await interaction.editReply({ embeds: [await errorMessages.notANumber(interaction)] });
+            return interaction.editReply({ embeds: [await errorMessages.notANumber(interaction)] });
         }
 
         // Check if loan details comply with loan_product table
         if (!(await checkApplyDetails.loan(client, loanProductID, amount, interestRate))) {
-            return await interaction.editReply({ embeds: [await errorMessages.invalidLoanDetails(interaction)] });
+            return interaction.editReply({ embeds: [await errorMessages.invalidLoanDetails(interaction)] });
         }
 
         // Check if firstPaymentDate is a valid date and not in the past
         if (!moment(firstPaymentDate, "YYYY-MM-DD").isValid() || moment(firstPaymentDate, "YYYY-MM-DD").isBefore(moment(), "day")) {
-            return await interaction.editReply({ embeds: [await errorMessages.invalidDate(interaction)] });
+            return interaction.editReply({ embeds: [await errorMessages.invalidDate(interaction)] });
         }
 
         // Query information to db
@@ -47,7 +47,7 @@ module.exports = {
         }
 
         // Send success message
-        return await interaction.editReply({
+        return interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Loan Application")

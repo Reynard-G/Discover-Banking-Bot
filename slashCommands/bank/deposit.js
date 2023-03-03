@@ -64,7 +64,7 @@ module.exports = {
         await attachment.download(screenshot.url, `./attachments/deposit_${currentUnixMilliseconds}.${attachmentFormat}`)
             .catch(async (error) => {
                 console.log(error),
-                await interaction.editReply({
+                interaction.editReply({
                     embeds: [await errorMessages.errorOccurred(interaction, error)]
                 });
             });
@@ -111,6 +111,6 @@ module.exports = {
 
         await receivingUser.send({ embeds: [depositRequestEmbed], files: [depositImage] });
         await channel.send({ embeds: [depositRequestEmbed], components: [buttonRow], files: [depositImage] });
-        await interaction.editReply({ embeds: [successEmbed] });
+        return interaction.editReply({ embeds: [successEmbed] });
     }
 };

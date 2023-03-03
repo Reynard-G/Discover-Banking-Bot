@@ -33,7 +33,7 @@ module.exports = {
 
         // Check if user has no transactions
         if (transactions.length === 0) {
-            return await interaction.editReply({ embeds: [await errorMessages.noTransactionsFound(interaction)] });
+            return interaction.editReply({ embeds: [await errorMessages.noTransactionsFound(interaction)] });
         }
 
         // Create embed

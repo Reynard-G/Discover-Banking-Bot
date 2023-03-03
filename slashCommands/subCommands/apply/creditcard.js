@@ -19,14 +19,14 @@ module.exports = {
         // Check if the user has the same credit card already
         const creditcard = await client.query("SELECT * FROM creditcards WHERE user_id = ? AND creditcard_product_id = ?", [userID, creditcardID]);
         if (creditcard.length > 0) {
-            return await interaction.editReply({ embeds: [await errorMessages.alreadyHasCreditcard(interaction)] });
+            return interaction.editReply({ embeds: [await errorMessages.alreadyHasCreditcard(interaction)] });
         }
 
         // Query creditcard to user
         await client.query("INSERT INTO creditcards (user_id, creditcard_product_id, status) VALUES (?, ?, ?)", [userID, creditcardID, 1]);
 
         // Send success message
-        return await interaction.editReply({
+        return interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle(`Creditcard Applied`)

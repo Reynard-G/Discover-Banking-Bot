@@ -16,7 +16,7 @@ module.exports = {
 
         // Check if username complies with minecraft username rules
         if (!/^[a-zA-Z0-9_]{3,16}$/.test(username)) {
-            return await interaction.editReply({
+            return interaction.editReply({
                 embeds: [await errorMessages.invalidUsername(interaction)]
             });
         }
@@ -25,7 +25,7 @@ module.exports = {
         await client.query("INSERT INTO accounts (discord_id, username) VALUES (?, ?)", [interaction.user.id, username]);
 
         // Send success message
-        await interaction.editReply({
+        interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Successfully Registered Account")

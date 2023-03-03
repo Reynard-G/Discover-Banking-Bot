@@ -6,13 +6,13 @@ exports.exists = async function (client, interaction, userID = interaction.user.
         const condition = checkForRegistered ? user.length > 0 : user.length === 0;
         if (condition) {
             if (deferred) {
-                await interaction.editReply({
+                interaction.editReply({
                     embeds: [
                         checkForRegistered ? await errorMessages.alreadyHasAccount(interaction) : await errorMessages.doesNotHaveAccount(interaction)
                     ]
                 });
             } else {
-                await interaction.reply({
+                interaction.reply({
                     embeds: [
                         checkForRegistered ? await errorMessages.alreadyHasAccount(interaction) : await errorMessages.doesNotHaveAccount(interaction)
                     ]

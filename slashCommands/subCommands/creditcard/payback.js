@@ -37,7 +37,7 @@ module.exports = {
         await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, creditcard_id, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, [userID, amountPayedBack, feeAmount, "CR", 1, note, creditcardID, userID, userID]);
 
         // Send success embed
-        return await interaction.editReply({
+        return interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Credit Card Payback")
