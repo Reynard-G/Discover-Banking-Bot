@@ -65,7 +65,7 @@ module.exports = {
         const amountReceived = new Decimal(amount).times(fee).toNumber();
         const feeAmount = new Decimal(amount).minus(amountReceived).toNumber();
         await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [userID, amount, feeAmount, "DR", 1, "Transfer to " + await accountDetails.username(client, receivingUserDiscordID), userID, userID]);
-        await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [receivingUserID, amountReceived, feeAmount, "CR", 1, "Transfer from " + await accountDetails.username(client, interaction.user.id), userID, userID]);
+        await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [receivingUserID, amountReceived, 0, "CR", 1, "Transfer from " + await accountDetails.username(client, interaction.user.id), userID, userID]);
 
         // Send receiving user a message
         const receivingUser = await client.users.fetch(receivingUserDiscordID);
