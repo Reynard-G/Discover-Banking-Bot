@@ -107,7 +107,7 @@ module.exports = {
             .setFooter({ text: `Discover Banking • Transaction ID #${depositID}`, iconURL: interaction.guild.iconURL() });
 
         const receivingUser = await client.users.fetch(interaction.user.id);
-        const depositImage = new AttachmentBuilder(`../../attachments/deposit_${currentUnixMilliseconds}.${attachmentFormat}`);
+        const depositImage = new AttachmentBuilder(`./attachments/deposit_${currentUnixMilliseconds}.${attachmentFormat}`);
 
         await receivingUser.send({ embeds: [depositRequestEmbed], files: [depositImage] });
         await channel.send({ embeds: [depositRequestEmbed], components: [buttonRow], files: [depositImage] });
