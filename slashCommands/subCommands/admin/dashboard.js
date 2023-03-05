@@ -24,7 +24,7 @@ module.exports = {
         const totalLoanAmountBorrowed = (await client.query(`SELECT SUM(total_payable) FROM loans`))[0]["SUM(total_payable)"] ?? 0;
 
         // The revenue generated from fees
-        const feeRevenue = Number((await client.query(`SELECT SUM(fee) FROM transactions`))[0]["SUM(fee)"]) ?? 0;
+        const feeRevenue = Number((await client.query(`SELECT SUM(fee) FROM transactions WHERE status = 1`))[0]["SUM(fee)"]) ?? 0;
 
         // Number of customers
         const numberOfCustomers = (await client.query(`SELECT COUNT(*) FROM accounts`))[0]["COUNT(*)"];
