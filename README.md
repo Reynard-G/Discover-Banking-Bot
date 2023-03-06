@@ -39,9 +39,9 @@ CREDITCARD_PAYBACK_FEE=(0.00 - 1.00)
 * `/dashboard` - Display the user's account number, balance, and active loans.
 * `/register` - Registers the user according to their discord ID after they have accepted the T.O.S.
 * `/transactions` - Displays the user's transactions from newest to oldest.
-* `/deposit` - Sends a deposit request in the channel described in `REQUESTS_CHANNEL_ID`.
-* `/withdraw` - Sends a withdrawal request in the channel described in `REQUESTS_CHANNEL_ID`.
-* `/transfer` - Transfers funds from the user executing the command to another registered user.
+* `/deposit` - Sends a deposit request in the channel described in `REQUESTS_CHANNEL_ID` along with a fee as described in `DEPOSIT_FEE`.
+* `/withdraw` - Sends a withdrawal request in the channel described in `REQUESTS_CHANNEL_ID` along with a fee as described in `WITHDRAW_FEE`.
+* `/transfer` - Transfers funds from the user executing the command to another registered user with a fee as described in `TRANSFER_FEE`.
 
 ### Subcommands
 
