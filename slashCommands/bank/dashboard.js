@@ -15,7 +15,7 @@ module.exports = {
         await interaction.deferReply({ ephemeral: true });
 
         // Check if user is not registered
-        if (!(await user.exists(client, interaction.user.id))) return interaction.editReply({ embeds: [await errorMessages.notRegistered(interaction)] });
+        if (!(await user.exists(client, interaction.user.id))) return interaction.editReply({ embeds: [await errorMessages.doesNotHaveAccount(interaction)] });
 
         // Get user details
         const userID = await user.id(client, interaction.user.id)

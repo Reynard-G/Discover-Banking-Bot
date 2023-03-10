@@ -1,11 +1,12 @@
 const { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require("discord.js");
 const user = require("../utils/user.js");
+const errorMessages = require("../utils/errorMessages.js");
 
 module.exports = {
     id: "agreeTOS",
     permissions: [],
     run: async (client, interaction) => {
-        if (await user.exists(client, interaction.user.id)) return interaction.reply({ embeds: [await errorMessages.alreadyRegistered(interaction)] });
+        if (await user.exists(client, interaction.user.id)) return interaction.reply({ embeds: [await errorMessages.alreadyHasAccount(interaction)] });
 
         const registerModal = new ModalBuilder()
             .setTitle("Discover Banking Registration")

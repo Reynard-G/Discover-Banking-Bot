@@ -1,5 +1,6 @@
 const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ApplicationCommandType } = require("discord.js");
 const user = require("../../utils/user.js");
+const errorMessages = require("../../utils/errorMessages.js");
 
 module.exports = {
     name: "register",
@@ -12,7 +13,7 @@ module.exports = {
         await interaction.deferReply({ ephemeral: true });
 
         // Check if user is already registered
-        if (await user.exists(client, interaction.user.id)) return interaction.editReply({ embeds: [await errorMessages.alreadyRegistered(interaction)] });
+        if (await user.exists(client, interaction.user.id)) return interaction.editReply({ embeds: [await errorMessages.alreadyHasAccount(interaction)] });
 
         // Ask user to agree to TOS
         return interaction.editReply({
@@ -22,7 +23,7 @@ module.exports = {
                     .setDescription(
                         "By clicking the button below, you agree to the terms of service." +
                         "\n\n**Terms of Service**" +
-                        "\nhttps://docs.google.com/document/d/1ZcWLQSfI9PrJsIAd2g2ZpE-H8L-l8Z4VZvwDwA6ZGFI/edit"
+                        "\n[Click here | T.O.S](https://docs.google.com/document/d/1ZcWLQSfI9PrJsIAd2g2ZpE-H8L-l8Z4VZvwDwA6ZGFI/edit)"
                     )
                     .setColor("#2F3136")
                     .setTimestamp()
