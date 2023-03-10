@@ -20,7 +20,7 @@ module.exports = {
         }
 
         // Check if user is not registered
-        if (!(await user.exists(client, interaction, userDiscordID, false, true))) return;
+        if (!(await user.exists(client, userDiscordID))) return interaction.editReply({ embeds: [await errorMessages.doesNotHaveAccount(interaction)] });
 
         // Check if user doesn't have a credit card
         if (await creditcards.exists(client, userDiscordID)) {

@@ -12,7 +12,7 @@ module.exports = {
         await interaction.deferReply({ ephemeral: true });
 
         // Check if user is already registered
-        if (await user.exists(client, interaction, interaction.user.id, true, true)) return;
+        if (await user.exists(client, interaction.user.id)) return interaction.editReply({ embeds: [await errorMessages.alreadyRegistered(interaction)] });
 
         // Ask user to agree to TOS
         return interaction.editReply({

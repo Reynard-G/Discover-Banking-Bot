@@ -1,7 +1,6 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, AttachmentBuilder, ApplicationCommandType, ApplicationCommandOptionType } = require("discord.js");
 const Decimal = require("decimal.js");
 const user = require("../../utils/user.js");
-const accountDetails = require("../../utils/accountDetails.js");
 const errorMessages = require("../../utils/errorMessages.js");
 const attachment = require("../../utils/attachment.js");
 
@@ -34,7 +33,7 @@ module.exports = {
         const screenshot = await interaction.options.getAttachment("screenshot");
 
         // Check if user is not registered
-        if (!(await user.exists(client, interaction, interaction.user.id, false, true))) return;
+        if (!(await user.exists(client, interaction.user.id))) return interaction.editReply({ embeds: [await errorMessages.doesNotHaveAccount(interaction)] });
 
         // Check if attachment is image
         if (!(await attachment.isImage(screenshot))) {
@@ -53,7 +52,7 @@ module.exports = {
         const fee = new Decimal(1).minus(process.env.DEPOSIT_FEE);
         const amountDeposited = new Decimal(amount).times(fee).toNumber();
         const feeAmount = new Decimal(amount).minus(amountDeposited).toNumber();
-        const username = await accountDetails.username(client, interaction.user.id);
+        const username = await user.username(client, interaction.user.id);
         const channel = await client.channels.fetch(process.env.REQUESTS_CHANNEL_ID);
         const attachmentFormat = screenshot.contentType.split("/").pop();
         const currentUnixMilliseconds = new Date().getTime();

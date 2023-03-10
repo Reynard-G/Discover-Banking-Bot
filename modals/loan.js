@@ -21,7 +21,7 @@ module.exports = {
         const note = await interaction.fields.getTextInputValue("noteInput");
 
         // Check if user is not registered
-        if (!(await user.exists(client, interaction, userDiscordID, false, true))) return;
+        if (!(await user.exists(client, userDiscordID))) return interaction.editReply({ embeds: [await errorMessages.userNotRegistered(interaction)] });
 
         // Check if amount, interestRate, term, and termPeriod are numbers
         if (isNaN(amount) || isNaN(interestRate) || isNaN(term) || isNaN(termPeriod)) {

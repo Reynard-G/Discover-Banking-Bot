@@ -20,7 +20,7 @@ module.exports = (client) => {
         const conn = await pool.getConnection();
         const result = await conn.query(sql, args);
         conn.release();
-        return delete result.meta ? result : result[0];
+        return result;
     };
 
     table.addRow("MySQL Connection", "✅");

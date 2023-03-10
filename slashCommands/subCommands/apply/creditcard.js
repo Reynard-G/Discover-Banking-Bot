@@ -14,7 +14,7 @@ module.exports = {
         const userID = await user.id(client, userDiscordID);
 
         // Check if the user does not exist
-        if (!(await user.exists(client, interaction, userDiscordID, false))) return;
+        if (!(await user.exists(client, userDiscordID))) return interaction.editReply({ embeds: [await errorMessages.doesNotHaveAccount(interaction)] });
 
         // Check if the user has the same credit card already
         const creditcard = await client.query("SELECT * FROM creditcards WHERE user_id = ? AND creditcard_product_id = ?", [userID, creditcardID]);

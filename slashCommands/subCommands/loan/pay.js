@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const moment = require("moment");
+const user = require("../../../utils/user.js");
 const accountDetails = require("../../../utils/accountDetails.js");
 const errorMessages = require("../../../utils/errorMessages.js");
 
@@ -42,7 +43,7 @@ module.exports = {
         await client.query("INSERT INTO loan_payments (loan_id, user_id, transaction_id, repayment_id, note) VALUES (?, ?, ?, ?, ?)", [loanID, loan.user_id, transactionID, loanRepayments[0].id, note]);
 
         // Send success message
-        const discordID = await accountDetails.discordID(client, loan.user_id);
+        const discordID = await user.discordID(client, loan.user_id);
         return interaction.editReply({
             embeds: [
                 new EmbedBuilder()

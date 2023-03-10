@@ -10,7 +10,7 @@ module.exports = {
         await interaction.deferReply({ ephemeral: true });
 
         // Check if user already has an account
-        if (await user.exists(client, interaction, interaction.user.id, true, true)) return;
+        if (await user.exists(client, interaction.user.id)) return interaction.editReply({ embeds: [await errorMessages.alreadyHasAccount(interaction)] });
 
         const username = interaction.fields.getTextInputValue("ignInput");
 

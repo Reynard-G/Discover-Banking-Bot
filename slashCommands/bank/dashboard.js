@@ -15,13 +15,13 @@ module.exports = {
         await interaction.deferReply({ ephemeral: true });
 
         // Check if user is not registered
-        if (!(await user.exists(client, interaction, interaction.user.id, false, true))) return;
+        if (!(await user.exists(client, interaction.user.id))) return interaction.editReply({ embeds: [await errorMessages.notRegistered(interaction)] });
 
         // Get user details
         const userID = await user.id(client, interaction.user.id)
-        const username = await accountDetails.username(client, interaction.user.id);
+        const username = await user.username(client, interaction.user.id);
         const balance = await accountDetails.balance(client, userID);
-
+        
         // Create embeds
         let pages = [];
         pages.push(

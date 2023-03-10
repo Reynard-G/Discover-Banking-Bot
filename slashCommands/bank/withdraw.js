@@ -26,7 +26,7 @@ module.exports = {
         const amount = await interaction.options.getInteger("amount");
 
         // Check if user is not registered
-        if (!(await user.exists(client, interaction, interaction.user.id, false, true))) return;
+        if (!(await user.exists(client, interaction.user.id))) return interaction.editReply({ embeds: [await errorMessages.doesNotHaveAccount(interaction)] });
 
         // Check if user has enough money in their bank account
         const userID = await user.id(client, interaction.user.id);
@@ -39,7 +39,7 @@ module.exports = {
         const fee = new Decimal(1).minus(process.env.WITHDRAW_FEE);
         const amountWithdrawed = new Decimal(amount).times(fee).toNumber();
         const feeAmount = new Decimal(amount).minus(amountWithdrawed).toNumber();
-        const username = await accountDetails.username(client, interaction.user.id);
+        const username = await user.username(client, interaction.user.id);
         const channel = await client.channels.fetch(process.env.REQUESTS_CHANNEL_ID);
 
         // Store pending withdraw to MySQL database & download attachment
