@@ -14,7 +14,7 @@ module.exports = {
 
         const interestRateInput = new TextInputBuilder()
             .setCustomId("interestRateInput")
-            .setPlaceholder("Enter the interest rate here")
+            .setPlaceholder("Enter the interest rate here. EX: .05 (5%)")
             .setStyle(TextInputStyle.Short)
             .setLabel("Interest Rate")
             .setRequired(true);

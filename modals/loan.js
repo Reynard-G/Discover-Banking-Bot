@@ -19,6 +19,7 @@ module.exports = {
         const term = await interaction.fields.getTextInputValue("termInput");
         const termPeriod = await interaction.fields.getTextInputValue("termPeriodInput");
         const note = await interaction.fields.getTextInputValue("noteInput");
+        const totalPayable = Decimal(amount).mul(Decimal(interestRate).add(1)).toNumber();
 
         // Check if user is not registered
         if (!(await user.exists(client, userDiscordID))) return interaction.editReply({ embeds: [await errorMessages.doesNotHaveAccount(interaction)] });
@@ -39,11 +40,11 @@ module.exports = {
         }
 
         // Query information to db
-        const loanID = (await client.query(`INSERT INTO loans (user_id, loan_product_id, first_payment_date, applied_amount, interest_rate, term, term_period, total_payable, note, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()`, [userID, loanProductID, moment(firstPaymentDate, "YYYY-MM-DD").format("YYYY-MM-DD"), amount, interestRate, term, termPeriod, Decimal(amount).mul(Decimal(interestRate).div(100).add(1)).toNumber(), note, 1]))[1][0]["LAST_INSERT_ID()"];
+        const loanID = (await client.query(`INSERT INTO loans (user_id, loan_product_id, first_payment_date, applied_amount, interest_rate, term, term_period, total_payable, note, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()`, [userID, loanProductID, moment(firstPaymentDate, "YYYY-MM-DD").format("YYYY-MM-DD"), amount, interestRate, term, termPeriod, totalPayable, note, 1]))[1][0]["LAST_INSERT_ID()"];
 
         // Query to loan_repayments table
         for (let i = 0; i < term; i++) {
-            await client.query("INSERT INTO loan_repayments (loan_id, payment_date, amount, status) VALUES (?, ?, ?, ?)", [loanID, moment(firstPaymentDate, "YYYY-MM-DD").add(i * termPeriod, "days").format("YYYY-MM-DD"), Decimal(amount).div(term).toNumber(), 0]);
+            await client.query("INSERT INTO loan_repayments (loan_id, payment_date, amount, status) VALUES (?, ?, ?, ?)", [loanID, moment(firstPaymentDate, "YYYY-MM-DD").add(i * termPeriod, "days").format("YYYY-MM-DD"), Decimal(totalPayable).div(term).toNumber(), 0]);
         }
 
         // Send success message
