@@ -24,6 +24,9 @@ module.exports = {
         // Create user
         await client.query("INSERT INTO accounts (discord_id, username) VALUES (?, ?)", [interaction.user.id, username]);
 
+        // Give user member role
+        await interaction.guild.members.cache.get(interaction.user.id).roles.add(process.env.MEMBER_ROLE_ID);
+
         // Send success message
         interaction.editReply({
             embeds: [
