@@ -1,5 +1,5 @@
 exports.exists = async function (client, userDiscordID) {
-    const user = await client.query("SELECT * FROM accounts WHERE discord_id = ?", [userDiscordID])[0];
+    const user = (await client.query("SELECT * FROM accounts WHERE discord_id = ?", [userDiscordID]))[0];
     return user ? true : false;
 };
 
