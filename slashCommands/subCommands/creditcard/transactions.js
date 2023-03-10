@@ -10,12 +10,6 @@ module.exports = {
         // Defer reply to prevent interaction timeout
         await interaction.deferReply({ ephemeral: true });
 
-        // Check if user doesn't have a credit card
-        const userID = await user.id(client, interaction.user.id);
-        if (!(await creditcards.exists(client, userID))) {
-            return interaction.editReply({ embeds: [await errorMessages.creditcardNotFound(interaction)] });
-        }
-
         // Get transactions data
         const id = await creditcards.id(client, userID);
         const transactions = await client.query(`SELECT *, UNIX_TIMESTAMP(created_at) AS created_at_unix, UNIX_TIMESTAMP(updated_at) AS updated_at_unix FROM transactions WHERE creditcard_id = ? ORDER BY id DESC`, [id]);

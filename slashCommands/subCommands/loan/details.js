@@ -1,4 +1,5 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require("discord.js");
+const user = require("../../../utils/user.js");
 const pagedEmbed = require("../../../utils/pagedEmbed.js");
 const errorMessages = require("../../../utils/errorMessages.js");
 
@@ -17,6 +18,11 @@ module.exports = {
         // Check if loan exists
         if (!loanDetails) {
             return interaction.editReply({ embeds: [await errorMessages.loanNotFound(interaction)] });
+        }
+
+        // Check if user owns the loan or is an admin
+        if (await user.discordID(client, loanDetails.user_id) !== interaction.user.id && !interaction.member.permissions.has("Administrator")) {
+            return interaction.editReply({ embeds: [await errorMessages.insufficientPermission(interaction)] });
         }
 
         // Get loan product details & loan repayment details
