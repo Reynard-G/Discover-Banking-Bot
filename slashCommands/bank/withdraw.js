@@ -43,7 +43,8 @@ module.exports = {
         const channel = await client.channels.fetch(process.env.REQUESTS_CHANNEL_ID);
 
         // Store pending withdraw to MySQL database & download attachment
-        const withdrawID = (await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()`, [userID, amountWithdrawed, feeAmount, "DR", 2, `Withdrawal of $${amount}`, userID, userID]))[1][0]["LAST_INSERT_ID()"];
+        const res = await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [userID, amountWithdrawed, feeAmount, "DR", 2, `Withdrawal of $${amount}`, userID, userID]);
+        const withdrawID = res.insertId;
 
         // Send withdrawal request embed to current channel and request channel
         const withdrawRequestEmbed = new EmbedBuilder()

@@ -36,7 +36,8 @@ module.exports = {
             if (accountDetails.balance(client, loan.user_id) < loanRepayments[0].amount) {
                 interaction.editReply({ embeds: [await errorMessages.notEnoughMoney(interaction)] });
             } else {
-                transactionID = (await client.query("INSERT INTO transactions (user_id, amount, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()", [loan.user_id, loanRepayments[0].amount, "DR", 1, note, loan.user_id, loan.user_id]))[1][0]["LAST_INSERT_ID()"];
+                const res = await client.query("INSERT INTO transactions (user_id, amount, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?)", [loan.user_id, loanRepayments[0].amount, "DR", 1, note, loan.user_id, loan.user_id]);
+                transactionID = res.insertId;
             }
         }
         await client.query("UPDATE loan_repayments SET status = 1 WHERE id = ?", [loanRepayments[0].id]);

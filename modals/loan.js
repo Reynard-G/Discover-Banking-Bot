@@ -40,7 +40,8 @@ module.exports = {
         }
 
         // Query information to db
-        const loanID = (await client.query(`INSERT INTO loans (user_id, loan_product_id, first_payment_date, applied_amount, interest_rate, term, term_period, total_payable, note, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()`, [userID, loanProductID, moment(firstPaymentDate, "YYYY-MM-DD").format("YYYY-MM-DD"), amount, interestRate, term, termPeriod, totalPayable, note, 1]))[1][0]["LAST_INSERT_ID()"];
+        const res = await client.query(`INSERT INTO loans (user_id, loan_product_id, first_payment_date, applied_amount, interest_rate, term, term_period, total_payable, note, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [userID, loanProductID, moment(firstPaymentDate, "YYYY-MM-DD").format("YYYY-MM-DD"), amount, interestRate, term, termPeriod, totalPayable, note, 1]);
+        const loanID = res.insertId;
 
         // Query to loan_repayments table
         for (let i = 0; i < term; i++) {

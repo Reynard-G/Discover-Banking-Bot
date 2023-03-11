@@ -4,8 +4,8 @@ exports.exists = async function (client, userDiscordID) {
 };
 
 exports.id = async function (client, userID) {
-    const user = await client.query("SELECT id FROM accounts WHERE discord_id = ?", [userID]);
-    return user.length > 0 ? user[0].id : null;
+    const user = (await client.query("SELECT id FROM accounts WHERE discord_id = ?", [userID]))[0]["id"];
+    return user ? user : null;
 };
 
 exports.username = async function (client, discordUserID) {

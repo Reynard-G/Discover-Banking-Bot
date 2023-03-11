@@ -63,7 +63,7 @@ client.on("interactionCreate", async interaction => {
 		// Subcommand handler
 		if (subCommandOption) {
 			if (subCommand) {
-				subCommand.run(client, interaction);
+				await subCommand.run(client, interaction);
 			}
 		} else {
 			await slashCommand.run(client, interaction);

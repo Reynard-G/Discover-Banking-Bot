@@ -59,7 +59,8 @@ module.exports = {
         const userID = await user.id(client, interaction.user.id);
 
         // Store pending deposit to MySQL database & download attachment
-        const depositID = (await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, attachment, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?); SELECT LAST_INSERT_ID()`, [userID, amountDeposited, feeAmount, "CR", 2, `Deposit of $${amount}`, `deposit_${currentUnixMilliseconds}.${attachmentFormat}`, userID, userID]))[1][0]["LAST_INSERT_ID()"];
+        const res = await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, attachment, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, [userID, amountDeposited, feeAmount, "CR", 2, `Deposit of $${amount}`, `deposit_${currentUnixMilliseconds}.${attachmentFormat}`, userID, userID]);
+        const depositID = res.insertId;
         await attachment.download(screenshot.url, `./attachments/deposit_${currentUnixMilliseconds}.${attachmentFormat}`)
             .catch(async (error) => {
                 console.log(error),
