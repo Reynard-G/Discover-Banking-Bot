@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const user = require("../utils/user.js");
+const parseConfig = require("../utils/parseConfig.js");
 const errorMessages = require("../utils/errorMessages.js");
 
 module.exports = {
@@ -25,7 +26,8 @@ module.exports = {
         await client.query("INSERT INTO accounts (discord_id, username) VALUES (?, ?)", [interaction.user.id, username]);
 
         // Give user member role
-        await interaction.guild.members.cache.get(interaction.user.id).roles.add(process.env.MEMBER_ROLE_ID);
+        const memberRoleID = await parseConfig.getRoles("MEMBER_ROLE_ID");
+        await interaction.guild.members.cache.get(interaction.user.id).roles.add(memberRoleID);
 
         // Send success message
         interaction.editReply({

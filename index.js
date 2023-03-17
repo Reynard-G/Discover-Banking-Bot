@@ -14,6 +14,7 @@ const client = new Client({
 const fs = require('fs');
 require('dotenv').config(); // remove this line if you are using replit
 
+client.config = require('./config.json');
 client.aliases = new Collection();
 client.slashCommands = new Collection();
 client.subCommands = new Collection();
@@ -22,10 +23,8 @@ client.buttons = new Collection();
 
 module.exports = client;
 
-
 fs.readdirSync('./handlers').forEach((handler) => {
 	require(`./handlers/${handler}`)(client);
 });
-
 
 client.login(process.env.TOKEN);

@@ -2,6 +2,7 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, AttachmentBuilder, Applic
 const Decimal = require("decimal.js");
 const user = require("../../utils/user.js");
 const errorMessages = require("../../utils/errorMessages.js");
+const parseConfig = require("../../utils/parseConfig.js");
 const attachment = require("../../utils/attachment.js");
 
 module.exports = {
@@ -49,11 +50,12 @@ module.exports = {
             });
         }
 
-        const fee = new Decimal(1).minus(process.env.DEPOSIT_FEE);
+        const fee = await parseConfig.getFees("DEPOSIT_FEE", amount);
         const amountDeposited = new Decimal(amount).times(fee).toNumber();
         const feeAmount = new Decimal(amount).minus(amountDeposited).toNumber();
         const username = await user.username(client, interaction.user.id);
-        const channel = await client.channels.fetch(process.env.REQUESTS_CHANNEL_ID);
+        const channelID = await parseConfig.get("REQUESTS_CHANNEL_ID");
+        const channel = await client.channels.fetch(channelID);
         const attachmentFormat = screenshot.contentType.split("/").pop();
         const currentUnixMilliseconds = new Date().getTime();
         const userID = await user.id(client, interaction.user.id);

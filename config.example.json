@@ -1,0 +1,14 @@
+{
+	"REQUESTS_CHANNEL_ID": "",
+	"MEMBER_ROLE_ID": "",
+	"DEPOSIT_FEE": [
+        { "range": [0, 1000], "fee": 0.00 }
+    ],
+	"WITHDRAW_FEE": [
+        { "range": [0, 9999], "fee": 0.00 }
+	],
+	"TRANSFER_FEE": [
+        { "range": [0, "Infinity"], "fee": 0.00 }
+    ],
+	"CREDITCARD_PAYBACK_FEE": 0.00
+}

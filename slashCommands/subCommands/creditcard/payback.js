@@ -2,6 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 const Decimal = require("decimal.js");
 const user = require("../../../utils/user.js");
 const creditcards = require("../../../utils/creditcards.js");
+const parseConfig = require("../../../utils/parseConfig.js");
 const errorMessages = require("../../../utils/errorMessages.js");
 
 module.exports = {
@@ -29,7 +30,8 @@ module.exports = {
 
         const userID = await user.id(client, userDiscordID);
         const creditcardID = await creditcards.id(client, userID);
-        const fee = new Decimal(1).minus(process.env.CREDITCARD_PAYBACK_FEE);
+        const paybackFee = await parseConfig.getFees("CREDITCARD_PAYBACK_FEE", amount);
+        const fee = new Decimal(1).minus(paybackFee).toNumber();
         const amountPayedBack = new Decimal(amount).times(fee).toNumber();
         const feeAmount = new Decimal(amount).minus(amountPayedBack).toNumber();
 

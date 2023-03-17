@@ -20,6 +20,9 @@ module.exports = {
             totalCreditCardAmountBorrowed += creditCardProductsDict[creditcard.creditcard_product_id];
         }
 
+        // Get total money in accounts
+        const totalAccountAmountDeposited = (await client.query(`SELECT SUM(amount) FROM transactions WHERE cr_dr = "CR" AND status = 1 AND creditcard_id IS NULL`))[0]["SUM(amount)"] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE cr_dr = "DR" AND status = 1 AND creditcard_id IS NULL`))[0]["SUM(amount)"];
+
         // Get total money borrowed from loans
         const totalLoanAmountBorrowed = (await client.query(`SELECT SUM(total_payable) FROM loans`))[0]["SUM(total_payable)"] ?? 0;
 
@@ -40,7 +43,7 @@ module.exports = {
                     .addFields(
                         {
                             name: "Information",
-                            value: `# Of Customers: ${numberOfCustomers}\n# Of Transactions: ${numberOfTransactions}`
+                            value: `# Of Customers: ${numberOfCustomers}\n# Of Transactions: ${numberOfTransactions}\nTotal Money In Accounts: ${totalAccountAmountDeposited.toLocaleString("en-US", { style: "currency", currency: "USD" })}`
                         },
                         {
                             name: "Borrowed Money",

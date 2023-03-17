@@ -2,6 +2,7 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ApplicationCommandType, A
 const Decimal = require("decimal.js");
 const user = require("../../utils/user.js");
 const accountDetails = require("../../utils/accountDetails.js");
+const parseConfig = require("../../utils/parseConfig.js");
 const errorMessages = require("../../utils/errorMessages.js");
 
 module.exports = {
@@ -36,11 +37,12 @@ module.exports = {
             });
         }
 
-        const fee = new Decimal(1).minus(process.env.WITHDRAW_FEE);
+        const fee = await parseConfig.getFees("WITHDRAW_FEE", amount);
         const amountWithdrawed = new Decimal(amount).times(fee).toNumber();
         const feeAmount = new Decimal(amount).minus(amountWithdrawed).toNumber();
         const username = await user.username(client, interaction.user.id);
-        const channel = await client.channels.fetch(process.env.REQUESTS_CHANNEL_ID);
+        const channelID = await parseConfig.get("REQUESTS_CHANNEL_ID");
+        const channel = await client.channels.fetch(channelID);
 
         // Store pending withdraw to MySQL database & download attachment
         const res = await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [userID, amountWithdrawed, feeAmount, "DR", 2, `Withdrawal of $${amount}`, userID, userID]);

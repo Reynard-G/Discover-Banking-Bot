@@ -2,6 +2,7 @@ const { EmbedBuilder, ApplicationCommandType, ApplicationCommandOptionType } = r
 const Decimal = require("decimal.js");
 const user = require("../../utils/user.js");
 const accountDetails = require("../../utils/accountDetails.js");
+const parseConfig = require("../../utils/parseConfig.js");
 const errorMessages = require("../../utils/errorMessages.js");
 
 module.exports = {
@@ -48,8 +49,7 @@ module.exports = {
         if (balance < amount) return interaction.editReply({ embeds: [await errorMessages.notEnoughMoney(interaction)] });
 
         // Transfer funds
-        require('dotenv').config();
-        const fee = new Decimal(1).minus(process.env.TRANSFER_FEE);
+        const fee = await parseConfig.getFees("TRANSFER_FEE", amount);
         const amountReceived = new Decimal(amount).times(fee).toNumber();
         const feeAmount = new Decimal(amount).minus(amountReceived).toNumber();
         await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [userID, amount, feeAmount, "DR", 1, "Transfer to " + await user.username(client, receivingUserDiscordID), userID, userID]);
