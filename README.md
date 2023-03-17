@@ -20,7 +20,7 @@ After installation finishes, follow the configuration instructions below and the
 
 ## ⚙️ Configuration
 
-Create a file named `.env` in the root directory and fill out the values:
+Rename the file `example.env` to `.env` in the root directory and fill out the values:
 
 ```
 TOKEN=
@@ -31,13 +31,9 @@ DB_PORT=
 DB_DATABASE=
 DB_USER=
 DB_PASS=
-REQUESTS_CHANNEL_ID=
-MEMBER_ROLE_ID=
-DEPOSIT_FEE=(0.00 - 1.00)
-WITHDRAW_FEE=(0.00 - 1.00)
-TRANSFER_FEE=(0.00 - 1.00)
-CREDITCARD_PAYBACK_FEE=(0.00 - 1.00)
 ```
+
+Customize the configuration of the bot by renaming `config.example.json` to `config.json` and fill out the values. There are multiple examples of fees using ranges, requests channel ID, etc.
 
 ## 📝 Features & Commands
 

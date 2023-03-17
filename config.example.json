@@ -5,7 +5,12 @@
         { "range": [0, 1000], "fee": 0.00 }
     ],
 	"WITHDRAW_FEE": [
-        { "range": [0, 9999], "fee": 0.00 }
+        { "range": [0, 9999], "fee": 0.03 },
+        { "range": [10000, 24999], "fee": 0.025 },
+		{ "range": [25000, 59999], "fee": 0.02 },
+		{ "range": [60000, 99999], "fee": 0.015 },
+		{ "range": [100000, 199999], "fee": 0.01 },
+		{ "range": [200000, "Infinity"], "fee": 0.005 }
 	],
 	"TRANSFER_FEE": [
         { "range": [0, "Infinity"], "fee": 0.00 }
