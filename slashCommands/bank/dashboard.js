@@ -3,6 +3,7 @@ const moment = require("moment");
 const user = require("../../utils/user.js");
 const accountDetails = require("../../utils/accountDetails.js");
 const pagedEmbed = require("../../utils/pagedEmbed.js");
+const errorMessages = require("../../utils/errorMessages.js");
 
 module.exports = {
     name: "dashboard",
