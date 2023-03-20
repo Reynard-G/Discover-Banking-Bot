@@ -38,8 +38,8 @@ module.exports = {
         }
 
         const fee = await parseConfig.getFees("WITHDRAW_FEE", amount);
-        const amountWithdrawed = new Decimal(amount).times(fee).toNumber();
-        const feeAmount = new Decimal(amount).minus(amountWithdrawed).toNumber();
+        const feeAmount = new Decimal(amount).times(fee).toNumber();
+        const amountWithdrawed = new Decimal(amount).minus(feeAmount).toNumber();
         const username = await user.username(client, interaction.user.id);
         const channelID = await parseConfig.get("REQUESTS_CHANNEL_ID");
         const channel = await client.channels.fetch(channelID);

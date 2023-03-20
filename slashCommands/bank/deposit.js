@@ -51,8 +51,8 @@ module.exports = {
         }
 
         const fee = await parseConfig.getFees("DEPOSIT_FEE", amount);
-        const amountDeposited = new Decimal(amount).times(fee).toNumber();
-        const feeAmount = new Decimal(amount).minus(amountDeposited).toNumber();
+        const feeAmount = new Decimal(amount).times(fee).toNumber();
+        const amountDeposited = new Decimal(amount).minus(feeAmount).toNumber();
         const username = await user.username(client, interaction.user.id);
         const channelID = await parseConfig.get("REQUESTS_CHANNEL_ID");
         const channel = await client.channels.fetch(channelID);
