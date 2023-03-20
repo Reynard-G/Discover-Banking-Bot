@@ -19,6 +19,5 @@ exports.getFees = async function (feeType, amount) {
 };
 
 exports.get = function (key) {
-    console.log(config[key])
     return config[key];
 };
