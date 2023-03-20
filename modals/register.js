@@ -26,7 +26,7 @@ module.exports = {
         await client.query("INSERT INTO accounts (discord_id, username) VALUES (?, ?)", [interaction.user.id, username]);
 
         // Give user member role
-        const memberRoleID = await parseConfig.getRoles("MEMBER_ROLE_ID");
+        const memberRoleID = await parseConfig.get("MEMBER_ROLE_ID");
         await interaction.guild.members.cache.get(interaction.user.id).roles.add(memberRoleID);
 
         // Send success message
