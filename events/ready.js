@@ -4,7 +4,7 @@ const chalk = require("chalk");
 
 client.on("ready", () => {
 	const activities = [
-		{ name: `to a podcast`, type: ActivityType.Listening },
+		{ name: `a podcast`, type: ActivityType.Listening },
 		{ name: `with money`, type: ActivityType.Playing },
 		{ name: `a movie`, type: ActivityType.Watching },
 		{ name: `a tournament`, type: ActivityType.Competing }
