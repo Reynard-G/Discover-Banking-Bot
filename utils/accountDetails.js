@@ -1,7 +1,7 @@
 const user = require("../utils/user.js");
 
 exports.balance = async function (client, userID) {
-    const balance = (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${userID}" AND cr_dr = "CR" AND status = 1 AND creditcard_id IS NULL`))[0]["SUM(amount)"] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${userID}" AND cr_dr = "DR" AND status = 1 AND creditcard_id IS NULL`))[0]["SUM(amount)"];
+    const balance = (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${userID}" AND cr_dr = "CR" AND status = 1 AND creditcard_id IS NULL`))[0]["SUM(amount)"] - (await client.query(`SELECT SUM(amount + fee) FROM transactions WHERE user_id = "${userID}" AND cr_dr = "DR" AND status = 1 AND creditcard_id IS NULL`))[0]["SUM(amount + fee)"];
     return balance;
 };
 
