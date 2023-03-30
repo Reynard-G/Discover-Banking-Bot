@@ -18,7 +18,7 @@
     "chalk": "^4.1.2",
     "decimal.js": "^10.4.3",
     "discord-api-types": "^0.37.24",
-    "discord.js": "^14.7.1",
+    "discord.js": "^14.8.0",
     "dotenv": "^16.0.3",
     "mariadb": "^3.1.0",
     "moment": "^2.29.4"
