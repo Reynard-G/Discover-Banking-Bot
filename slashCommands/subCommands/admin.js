@@ -13,6 +13,12 @@ module.exports = {
             description: "Overview of Discover Banking.",
             type: ApplicationCommandOptionType.Subcommand,
             cooldown: 3000,
-        }
+        },
+        {
+            name: "depositors",
+            description: "List of all depositors.",
+            type: ApplicationCommandOptionType.Subcommand,
+            cooldown: 3000,
+        },
     ],
 };
