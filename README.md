@@ -51,6 +51,7 @@ Customize the configuration of the bot by renaming `config.example.json` to `con
 #### 🛠️ Admin ⚠️ **Admin Only** ⚠️
 
 * `/admin dashboard` - Displays analytical information such as the number of customers and transactions, the total amount of loans and credit card money loaned, and revenue from fees.
+* `/admin depositors` - Displays a list of depositors along with their account ID & balance.
 
 #### 📋 Apply ⚠️ **Admin Only** ⚠️
 
