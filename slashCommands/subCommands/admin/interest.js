@@ -6,7 +6,7 @@ module.exports = {
     name: "interest",
     run: async (client, interaction) => {
         // Defer reply to prevent interaction timeout
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply();
 
         // Get the percentage of interest to apply
         const percentage = interaction.options.getNumber("percentage");
