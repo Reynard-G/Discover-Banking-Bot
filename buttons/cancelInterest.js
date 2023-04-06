@@ -11,8 +11,7 @@ module.exports = {
         });
         await interaction.update({ components: [row] });
 
-        return interaction.followUp({
-            ephemeral: true,
+        return interaction.editReply({
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Interest Canceled")

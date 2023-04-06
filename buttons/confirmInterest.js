@@ -31,7 +31,6 @@ module.exports = {
         }));
 
         return interaction.editReply({
-            ephemeral: true,
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Interest Confirmed")
