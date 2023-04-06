@@ -21,7 +21,7 @@ module.exports = {
         }
 
         // Get total money in accounts
-        const totalAccountAmountDeposited = (await client.query(`SELECT SUM(amount) FROM transactions WHERE cr_dr = "CR" AND status = 1 AND creditcard_id IS NULL`))[0]["SUM(amount)"] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE cr_dr = "DR" AND status = 1 AND creditcard_id IS NULL`))[0]["SUM(amount)"];
+        const totalAccountAmountDeposited = (await client.query(`SELECT SUM(amount) FROM transactions WHERE cr_dr = "CR" AND status = 1 AND creditcard_id IS NULL`))[0]["SUM(amount)"] - (await client.query(`SELECT SUM(amount + fee) FROM transactions WHERE cr_dr = "DR" AND status = 1 AND creditcard_id IS NULL`))[0]["SUM(amount + fee)"];
 
         // Get total money borrowed from loans
         const totalLoanAmountBorrowed = (await client.query(`SELECT SUM(total_payable) FROM loans`))[0]["SUM(total_payable)"] ?? 0;
@@ -55,7 +55,7 @@ module.exports = {
                         }
                     )
                     .setTimestamp()
-                    .setColor("2F3136")
+                    .setColor("#2B2D31")
                     .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() })
             ],
         });

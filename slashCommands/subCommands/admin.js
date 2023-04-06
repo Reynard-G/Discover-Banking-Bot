@@ -20,5 +20,21 @@ module.exports = {
             type: ApplicationCommandOptionType.Subcommand,
             cooldown: 3000,
         },
+        {
+            name: "interest",
+            description: "Apply interest to all depositors.",
+            type: ApplicationCommandOptionType.Subcommand,
+            cooldown: 3000,
+            options: [
+                {
+                    name: "percentage",
+                    description: "Percentage of interest to apply.",
+                    type: ApplicationCommandOptionType.Number,
+                    min_value: 0,
+                    max_value: 1,
+                    required: true,
+                },
+            ],
+        }
     ],
 };

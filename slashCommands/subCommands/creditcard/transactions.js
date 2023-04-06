@@ -30,7 +30,7 @@ module.exports = {
         for (let i = 0; i < transactions.length; i += 5) {
             const embed = new EmbedBuilder()
                 .setTitle("Credit Card Transactions")
-                .setColor("2F3136")
+                .setColor("#2B2D31")
                 .setTimestamp();
 
             for (let j = i; j < i + 5; j++) {

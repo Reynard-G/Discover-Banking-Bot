@@ -83,7 +83,7 @@ module.exports = {
                 `\n**Total:** $${amount.toLocaleString()}`
             )
             .setImage(`attachment://deposit_${currentUnixMilliseconds}.${attachmentFormat}`)
-            .setColor("2F3136")
+            .setColor("#2B2D31")
             .setTimestamp()
             .setFooter({ text: `Discover Banking • Transaction ID #${depositID}`, iconURL: interaction.guild.iconURL() });
 
@@ -104,7 +104,7 @@ module.exports = {
         const successEmbed = new EmbedBuilder()
             .setTitle("Deposit Request")
             .setDescription(`Your deposit request has been successfully sent to staff for review.`)
-            .setColor("2F3136")
+            .setColor("#2B2D31")
             .setTimestamp()
             .setFooter({ text: `Discover Banking • Transaction ID #${depositID}`, iconURL: interaction.guild.iconURL() });
 

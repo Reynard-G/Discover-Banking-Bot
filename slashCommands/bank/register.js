@@ -25,7 +25,7 @@ module.exports = {
                         "\n\n**Terms of Service**" +
                         "\n[Click here | T.O.S](https://docs.google.com/document/d/1ZcWLQSfI9PrJsIAd2g2ZpE-H8L-l8Z4VZvwDwA6ZGFI/edit)"
                     )
-                    .setColor("#2F3136")
+                    .setColor("#2B2D31")
                     .setTimestamp()
                     .setFooter({ text: "Discover", iconURL: interaction.guild.iconURL() })
             ],

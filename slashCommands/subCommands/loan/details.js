@@ -44,7 +44,7 @@ module.exports = {
                 `\n**Created at:** <t:${loanDetails.created_at_unix}:F>` +
                 `\n**Updated at:** <t:${loanDetails.updated_at_unix}:F>`
             )
-            .setColor("2F3136")
+            .setColor("#2B2D31")
             .setTimestamp()
         );
 
@@ -63,7 +63,7 @@ module.exports = {
                 loanDetailsPages.push(new EmbedBuilder()
                     .setTitle(`Loan Repayment Details`)
                     .setDescription(`${loanRepaymentString}`)
-                    .setColor("2F3136")
+                    .setColor("#2B2D31")
                     .setTimestamp()
                 );
                 loanRepaymentString = "";

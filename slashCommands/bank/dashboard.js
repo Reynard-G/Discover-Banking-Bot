@@ -34,7 +34,7 @@ module.exports = {
                     { name: "Account Number", value: interaction.user.id },
                     { name: "Balance", value: `$${balance.toLocaleString()}` },
                 )
-                .setColor("#2F3136")
+                .setColor("#2B2D31")
                 .setTimestamp()
         );
 
@@ -69,7 +69,7 @@ module.exports = {
                 .addFields(
                     { name: "Loans", value: loanString ?? "None" },
                 )
-                .setColor("#2F3136")
+                .setColor("#2B2D31")
                 .setTimestamp()
         );
 

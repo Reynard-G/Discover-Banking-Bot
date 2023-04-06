@@ -29,7 +29,7 @@ module.exports = {
                         { name: "Balance", value: `${balance}`, inline: true },
                         { name: "Limit", value: `${limit}`, inline: true },
                     )
-                    .setColor("2F3136")
+                    .setColor("#2B2D31")
                     .setTimestamp()
                     .setFooter({ text: "Discover Bank", iconURL: interaction.guild.iconURL() })
             ]

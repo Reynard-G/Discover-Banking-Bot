@@ -44,7 +44,7 @@ module.exports = {
                 new EmbedBuilder()
                     .setTitle("Credit Card Payback")
                     .setDescription(`Successfully payed back **$${amountPayedBack}** to <@${userDiscordID}>'s credit card.`)
-                    .setColor("2F3136")
+                    .setColor("#2B2D31")
                     .setTimestamp()
                     .setFooter({ text: "Discover Bank", iconURL: interaction.guild.iconURL() })
             ]

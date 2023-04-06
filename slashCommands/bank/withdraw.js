@@ -59,7 +59,7 @@ module.exports = {
                 `\n**Status:** Pending` +
                 `\n**Total:** $${amount.toLocaleString()}`
             )
-            .setColor("2F3136")
+            .setColor("#2B2D31")
             .setTimestamp()
             .setFooter({ text: `Discover Banking • Transaction ID #${withdrawID}`, iconURL: interaction.guild.iconURL() });
 
@@ -80,7 +80,7 @@ module.exports = {
         const successEmbed = new EmbedBuilder()
             .setTitle("Withdrawal Request")
             .setDescription(`Your withdrawal request has been successfully sent to staff for review.`)
-            .setColor("2F3136")
+            .setColor("#2B2D31")
             .setTimestamp()
             .setFooter({ text: `Discover Banking • Transaction ID #${withdrawID}`, iconURL: interaction.guild.iconURL() });
 

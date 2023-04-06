@@ -40,7 +40,7 @@ module.exports = {
         let embed = new EmbedBuilder()
             .setTitle("Transaction History")
             .setDescription("For privacy reasons, you can only switch between pages of your transaction history for **5 minutes.**")
-            .setColor("#2F3136")
+            .setColor("#2B2D31")
             .setTimestamp();
 
         // Add fields
@@ -51,7 +51,7 @@ module.exports = {
                 embed = new EmbedBuilder()
                     .setTitle("Transaction History")
                     .setDescription("For privacy reasons, you can only switch between pages of your transaction history for **5 minutes.**")
-                    .setColor("#2F3136")
+                    .setColor("#2B2D31")
                     .setTimestamp();
             }
 
