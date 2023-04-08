@@ -53,11 +53,11 @@ module.exports = {
             .setTitle("Withdrawal Request")
             .setDescription(
                 `**User:** ${username} (${interaction.user.id})` +
-                `\n**Amount:** $${amountWithdrawed.toLocaleString()}` +
+                `\n**Amount:** $${amount.toLocaleString()}` +
                 `\n**Fee:** $${feeAmount.toLocaleString()}` +
                 `\n**Type:** Withdrawal` +
                 `\n**Status:** Pending` +
-                `\n**Total:** $${amount.toLocaleString()}`
+                `\n**Total:** $${amountWithdrawed.toLocaleString()}`
             )
             .setColor("#2B2D31")
             .setTimestamp()
