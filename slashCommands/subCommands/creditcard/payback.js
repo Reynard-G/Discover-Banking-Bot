@@ -8,46 +8,60 @@ const errorMessages = require("../../../utils/errorMessages.js");
 module.exports = {
     name: "payback",
     run: async (client, interaction) => {
-        // Defer reply to prevent interaction timeout
-        await interaction.deferReply({ ephemeral: true });
+        try {
+            // Defer reply to prevent interaction timeout
+            await interaction.deferReply({ ephemeral: true });
 
-        const userDiscordID = interaction.options.getUser("user").id;
-        const amount = interaction.options.getInteger("amount");
-        const note = interaction.options.getString("note");
+            const userDiscordID = interaction.options.getUser("user").id;
+            const amount = interaction.options.getInteger("amount");
+            const note = interaction.options.getString("note");
 
-        // Check if user has permission to use this command
-        if (!interaction.member.permissions.has("Administrator")) {
-            return interaction.editReply({ embeds: [await errorMessages.noPermission(interaction)] });
+            // Check if user has permission to use this command
+            if (!interaction.member.permissions.has("Administrator")) {
+                return interaction.editReply({ embeds: [await errorMessages.noPermission(interaction)] });
+            }
+
+            // Check if user is not registered
+            if (!(await user.exists(client, userDiscordID))) return interaction.editReply({ embeds: [await errorMessages.doesNotHaveAccount(interaction)] });
+
+            // Check if user doesn't have a credit card
+            if (await creditcards.exists(client, userDiscordID)) {
+                return interaction.editReply({ embeds: [await errorMessages.creditcardNotFound(interaction)] });
+            }
+
+            const userID = await user.id(client, userDiscordID);
+            const creditcardID = await creditcards.id(client, userID);
+            const paybackFee = await parseConfig.getFees("CREDITCARD_PAYBACK_FEE", amount);
+            const fee = new Decimal(1).minus(paybackFee).toNumber();
+            const amountPayedBack = new Decimal(amount).times(fee).toNumber();
+            const feeAmount = new Decimal(amount).minus(amountPayedBack).toNumber();
+
+            // Query payback user creditcard transactions
+            await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, creditcard_id, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, [userID, amountPayedBack, feeAmount, "CR", 1, note, creditcardID, userID, userID]);
+
+            // Send success embed
+            return interaction.editReply({
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle("Credit Card Payback")
+                        .setDescription(`Successfully payed back **$${amountPayedBack}** to <@${userDiscordID}>'s credit card.`)
+                        .setColor("#2B2D31")
+                        .setTimestamp()
+                        .setFooter({ text: "Discover Bank", iconURL: interaction.guild.iconURL() })
+                ]
+            });
+        } catch (error) {
+            console.log(error);
+            return interaction.editReply({
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle("Credit Card Payback")
+                        .setDescription("An error occurred while trying to pay back to a credit card. Please try again.")
+                        .setColor("Red")
+                        .setTimestamp()
+                        .setFooter({ text: "Discover Bank", iconURL: interaction.guild.iconURL() })
+                ]
+            });
         }
-
-        // Check if user is not registered
-        if (!(await user.exists(client, userDiscordID))) return interaction.editReply({ embeds: [await errorMessages.doesNotHaveAccount(interaction)] });
-
-        // Check if user doesn't have a credit card
-        if (await creditcards.exists(client, userDiscordID)) {
-            return interaction.editReply({ embeds: [await errorMessages.creditcardNotFound(interaction)] });
-        }
-
-        const userID = await user.id(client, userDiscordID);
-        const creditcardID = await creditcards.id(client, userID);
-        const paybackFee = await parseConfig.getFees("CREDITCARD_PAYBACK_FEE", amount);
-        const fee = new Decimal(1).minus(paybackFee).toNumber();
-        const amountPayedBack = new Decimal(amount).times(fee).toNumber();
-        const feeAmount = new Decimal(amount).minus(amountPayedBack).toNumber();
-
-        // Query payback user creditcard transactions
-        await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, creditcard_id, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, [userID, amountPayedBack, feeAmount, "CR", 1, note, creditcardID, userID, userID]);
-
-        // Send success embed
-        return interaction.editReply({
-            embeds: [
-                new EmbedBuilder()
-                    .setTitle("Credit Card Payback")
-                    .setDescription(`Successfully payed back **$${amountPayedBack}** to <@${userDiscordID}>'s credit card.`)
-                    .setColor("#2B2D31")
-                    .setTimestamp()
-                    .setFooter({ text: "Discover Bank", iconURL: interaction.guild.iconURL() })
-            ]
-        });
     }
 };
