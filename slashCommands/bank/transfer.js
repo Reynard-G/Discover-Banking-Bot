@@ -51,8 +51,8 @@ module.exports = {
 
       // Transfer funds
       const fee = await parseConfig.getFees("TRANSFER_FEE", amount);
-      const amountReceived = new Decimal(amount).times(fee).toNumber();
-      const feeAmount = new Decimal(amount).minus(amountReceived).toNumber();
+      const amountReceived = fee === 0 ? amount : new Decimal(amount).times(1 - fee).toNumber();
+      const feeAmount = fee === 0 ? 0 : new Decimal(amount).minus(amountReceived).toNumber();
       await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [userID, amount, feeAmount, "DR", 1, "Transfer to " + await user.username(client, receivingUserDiscordID), userID, userID]);
       await client.query(`INSERT INTO transactions (user_id, amount, fee, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [receivingUserID, amountReceived, 0, "CR", 1, "Transfer from " + await user.username(client, interaction.user.id), userID, userID]);
 
