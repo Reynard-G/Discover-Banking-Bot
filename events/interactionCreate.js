@@ -7,17 +7,21 @@ const cooldown = new Collection();
 client.on("interactionCreate", async interaction => {
 	const slashCommand = client.slashCommands.get(interaction.commandName);
 
-	if (interaction.type === 4) {
-		if (slashCommand.autocomplete) {
-			const choices = [];
-			await slashCommand.autocomplete(interaction, choices);
-		}
-	}
 	if (!interaction.type === 2) return;
 	if (!slashCommand) return client.slashCommands.delete(interaction.commandName);
 
 	const subCommandOption = interaction.options.getSubcommand(false) || interaction.options.getSubcommandGroup(false);
 	const subCommand = subCommandOption ? client.subCommands.get(`${interaction.commandName} ${subCommandOption}`, subCommandOption) : null;
+
+	if (interaction.isAutocomplete()) {
+		try {
+			const autocompleteCommand = interaction.client.subCommands.get(`${interaction.commandName} ${subCommandOption}`, subCommandOption);
+			
+			return await autocompleteCommand.autocomplete(client, interaction);
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
 	// Logging
 	if (subCommand) {
