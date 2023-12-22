@@ -8,7 +8,7 @@ module.exports = {
   run: async (client, interaction) => {
     try {
       // Defer reply to prevent interaction timeout
-      await interaction.deferReply();
+      await interaction.deferReply({ ephemeral: true });
 
       // Get variables from options
       const receivingUserID = await interaction.options.getUser("user").id;

@@ -9,7 +9,7 @@ module.exports = {
   run: async (client, interaction) => {
     try {
       // Defer reply to prevent interaction timeout
-      await interaction.deferReply({ ephemeral: true });
+      await interaction.deferReply();
 
       const userDiscordID = interaction.options.getUser("user").id;
       const amountPayingBack = interaction.options.getInteger("amount");
