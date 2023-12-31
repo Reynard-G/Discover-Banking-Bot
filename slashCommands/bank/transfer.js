@@ -88,15 +88,15 @@ module.exports = {
       return logChannel.send({
         embeds: [
           new EmbedBuilder()
-            .setTitle("Transfer")
+            .setTitle("Transfer Log")
             .addFields(
               { name: "Sender", value: `<@${interaction.user.id}>` },
               { name: "Receiver", value: `<@${receivingUserDiscordID}>` },
-              { name: "Amount", value: `${amount.toLocaleString("en-US", { style: "currency", currency: "USD" })}` },
-              { name: "Amount Received", value: `$${amountReceived.toLocaleString("en-US", { style: "currency", currency: "USD" })}` },
-              { name: "Fee", value: `$${feeAmount.toLocaleString("en-US", { style: "currency", currency: "USD" })}` },
+              { name: "Amount", value: amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) },
+              { name: "Amount Received", value: amountReceived.toLocaleString("en-US", { style: "currency", currency: "USD" }) },
+              { name: "Fee", value: feeAmount.toLocaleString("en-US", { style: "currency", currency: "USD" }) },
             )
-            .setColor("Green")
+            .setColor("#2B2D31")
             .setTimestamp()
             .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() })
         ]
