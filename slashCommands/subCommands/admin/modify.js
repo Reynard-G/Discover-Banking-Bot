@@ -26,33 +26,40 @@ module.exports = {
       await client.query(`INSERT INTO transactions (user_id, amount, cr_dr, status, note, created_user_id, updated_user_id) VALUES (?, ?, ?, ?, ?, ?, ?)`,
         [userID, transactionAmount, transactionType, 1, note, userID, userID]);
 
-      return interaction.editReply({
+      // Send confirmation message
+      interaction.editReply({
         embeds: [
           new EmbedBuilder()
             .setTitle("Discover Banking Admin Dashboard")
             .setDescription("Overview of Discover Banking.")
             .addFields(
-              {
-                name: "User",
-                value: `<@${userDiscordID}>`,
-              },
-              {
-                name: "Amount",
-                value: amount.toLocaleString("en-US", { style: "currency", currency: "USD" }),
-              },
-              {
-                name: "Transaction Type",
-                value: transactionType,
-              },
-              {
-                name: "Note",
-                value: note,
-              }
+              { name: "User", value: `<@${userDiscordID}>` },
+              { name: "Amount", value: amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) },
+              { name: "Transaction Type", value: transactionType },
+              { name: "Note", value: note }
             )
             .setTimestamp()
             .setColor("#2B2D31")
             .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() })
         ],
+      });
+
+      // Send log message to admin-audit channel
+      const logChannel = await client.channels.fetch(process.env.ADMIN_AUDIT_CHANNEL);
+      return logChannel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setTitle("Admin Modified Balance")
+            .addFields(
+              { name: "User", value: `<@${userDiscordID}>` },
+              { name: "Amount", value: amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) },
+              { name: "Transaction Type", value: transactionType },
+              { name: "Note", value: note }
+            )
+            .setColor("#2B2D31")
+            .setTimestamp()
+            .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() })
+        ]
       });
     } catch (error) {
       console.log(error);

@@ -72,11 +72,30 @@ module.exports = {
       });
 
       // Send confirmation message
-      return interaction.editReply({
+      interaction.editReply({
         embeds: [
           new EmbedBuilder()
             .setTitle("Transfer Successful")
             .setDescription(`You have successfully transferred **$${amountReceived}** to **${await user.username(client, receivingUserDiscordID)}**.`)
+            .setColor("Green")
+            .setTimestamp()
+            .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() })
+        ]
+      });
+
+      // Send log message
+      const logChannel = await client.channels.fetch(process.env.TRANSFER_AUDIT_CHANNEL);
+      return logChannel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setTitle("Transfer")
+            .addFields(
+              { name: "Sender", value: `<@${interaction.user.id}>` },
+              { name: "Receiver", value: `<@${receivingUserDiscordID}>` },
+              { name: "Amount", value: `${amount.toLocaleString("en-US", { style: "currency", currency: "USD" })}` },
+              { name: "Amount Received", value: `$${amountReceived.toLocaleString("en-US", { style: "currency", currency: "USD" })}` },
+              { name: "Fee", value: `$${feeAmount.toLocaleString("en-US", { style: "currency", currency: "USD" })}` },
+            )
             .setColor("Green")
             .setTimestamp()
             .setFooter({ text: "Discover Banking", iconURL: interaction.guild.iconURL() })

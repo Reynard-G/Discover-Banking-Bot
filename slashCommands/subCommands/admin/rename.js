@@ -25,16 +25,8 @@ module.exports = {
             .setTitle("Discover Banking Admin Dashboard")
             .setDescription("Overview of Discover Banking.")
             .addFields(
-              {
-                name: "User",
-                value: `<@${userDiscordID}>`,
-                inline: true,
-              },
-              {
-                name: "New Username",
-                value: newUsername,
-                inline: true,
-              }
+              { name: "User", value: `<@${userDiscordID}>`, inline: true },
+              { name: "New Username", value: newUsername, inline: true }
             )
             .setTimestamp()
             .setColor("#2B2D31")
