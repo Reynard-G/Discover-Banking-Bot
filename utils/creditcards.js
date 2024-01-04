@@ -4,14 +4,21 @@ exports.balance = async function (client, userID) {
   const creditcardID = (await client.query(`SELECT id FROM creditcards WHERE user_id = "${userID}"`))[0]["id"];
   const result = await client.query(`
     SELECT 
-      SUM(CASE WHEN cr_dr = "CR" THEN amount ELSE -amount END) AS usedBalance
+      SUM(CASE WHEN cr_dr = "CR" THEN amount ELSE -amount END) AS balance
     FROM 
       transactions
     WHERE 
       creditcard_id = ? AND status = 1
   `, [creditcardID]);
-  const usedBalance = Number(result[0].usedBalance);
-  return usedBalance;
+
+  // If the user has no transactions, return limit
+  if (result[0].balance === null) {
+    const limit = await this.limit(client, userID);
+    return limit;
+  }
+
+  const balance = Number(result[0].balance);
+  return balance;
 };
 
 exports.amountSpent = async function (client, userID) {
