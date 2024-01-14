@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const user = require("../../../utils/user.js");
+const errorMessages = require("../../../utils/errorMessages.js");
 
 module.exports = {
   name: "rename",
